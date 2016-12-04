@@ -2,3 +2,7 @@
 .idea/*
 *.iml
 */*.iml
+out
+out/*
+data
+data/*
