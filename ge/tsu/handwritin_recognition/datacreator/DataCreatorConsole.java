@@ -1,8 +1,10 @@
-package ge.tsu.handwritin_recognition.data;
+package ge.tsu.handwritin_recognition.datacreator;
+
+import ge.tsu.handwritin_recognition.data.InputData;
 
 import java.util.Scanner;
 
-public abstract class DataCreator {
+public abstract class DataCreatorConsole {
     
     private static final Scanner scanner = new Scanner(System.in);
     
