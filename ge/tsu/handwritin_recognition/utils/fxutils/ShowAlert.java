@@ -1,4 +1,4 @@
-package ge.tsu.handwritin_recognition.helper;
+package ge.tsu.handwritin_recognition.utils.fxutils;
 
 import javafx.scene.control.Alert;
 
@@ -16,4 +16,10 @@ public class ShowAlert {
         alert.showAndWait();
     }
 
+    public static void showWarning(String text, Exception ex) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText(text);
+        alert.setContentText(ex.getMessage());
+        alert.showAndWait();
+    }
 }

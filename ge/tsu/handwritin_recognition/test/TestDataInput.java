@@ -1,12 +1,12 @@
 package ge.tsu.handwritin_recognition.test;
 
-import ge.tsu.systemsetting.SystemParameter;
+import ge.tsu.handwritin_recognition.systemsetting.SystemParameter;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-public class DataTest {
+public class TestDataInput {
     
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         
@@ -15,5 +15,4 @@ public class DataTest {
         ObjectInputStream in = new ObjectInputStream(new FileInputStream(SystemParameter.testDataPath + "\\test stage 1\\4.txt"));
         System.out.println(in.readObject().toString());
     }
-    
 }

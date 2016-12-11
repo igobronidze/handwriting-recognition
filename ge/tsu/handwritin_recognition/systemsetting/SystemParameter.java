@@ -1,8 +1,8 @@
-package ge.tsu.systemsetting;
+package ge.tsu.handwritin_recognition.systemsetting;
 
 public class SystemParameter {
 
-    public static final String testDataPath = "C:\\dev\\handwriting-recognition\\data";
+    public static final String testDataPath = "D:\\sg\\testdata";
 
     public static final int testDataCreatorGridDefaultWidth = 10;
 
@@ -19,5 +19,4 @@ public class SystemParameter {
     public static final String testDataCreatorDarkColor = "#001a1a";
 
     public static final String testDataCreatorBrightColor = "#e6ffff";
-
 }
