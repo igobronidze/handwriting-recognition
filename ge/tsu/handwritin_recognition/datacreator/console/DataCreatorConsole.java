@@ -1,6 +1,6 @@
-package ge.tsu.handwritin_recognition.datacreator;
+package ge.tsu.handwritin_recognition.datacreator.console;
 
-import ge.tsu.handwritin_recognition.data.TestData;
+import ge.tsu.handwritin_recognition.model.InputData;
 
 import java.util.Scanner;
 
@@ -8,7 +8,7 @@ public abstract class DataCreatorConsole {
     
     private static final Scanner scanner = new Scanner(System.in);
     
-    public static TestData createByScanner(boolean withAns) {
+    public static InputData createByScanner(boolean withAns) {
         System.out.print("სიმაღლე: ");
         int height = scanner.nextInt();
         System.out.print("სიგრძე: ");
@@ -24,7 +24,7 @@ public abstract class DataCreatorConsole {
                 grid[i][j] = tmp != 0;
             }
         }
-        TestData data = new TestData(height, width, grid);
+        InputData data = new InputData(height, width, grid);
         if (withAns) {
             System.out.println("სწორი პასუხი: ");
             char letter = scanner.next().charAt(0);
