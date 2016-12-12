@@ -2,11 +2,11 @@ package ge.tsu.handwritin_recognition.systemsetting;
 
 public class SystemParameter {
 
-    public static final String testDataPath = "D:\\sg\\testdata";
+    public static final String testDataPath = "D:\\sg\\handwriting_recognition\\testdata";
 
-    public static final int testDataCreatorGridDefaultWidth = 10;
+    public static final int testDataCreatorGridDefaultWidth = 15;
 
-    public static final int testDataCreatorGridDefaultHeight = 10;
+    public static final int testDataCreatorGridDefaultHeight = 15;
 
     public static final int testDataCreatorGridMaxWidth = 100;
 
