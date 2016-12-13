@@ -1,4 +1,4 @@
-package ge.tsu.handwritin_recognition.test;
+package ge.tsu.handwriting_recognition;
 
 import ge.tsu.handwritin_recognition.systemsetting.SystemParameter;
 
