@@ -10,7 +10,7 @@ import java.util.List;
 
 public class NeuralNetwork {
 
-    public void trainNeural(DataSet trainingSet, int inputNeuralNumber) {
+    public static void trainNeural(DataSet trainingSet, int inputNeuralNumber) {
         List<Integer> layers = new ArrayList<>();
         layers.add(inputNeuralNumber);
         for (int x : SystemParameter.neuralInHiddenLayers) {
