@@ -1,8 +1,16 @@
 package ge.tsu.handwritin_recognition.systemsetting;
 
+import ge.tsu.handwritin_recognition.model.CharsSet;
+
 public class SystemParameter {
 
-    public static final String testDataPath = "D:\\sg\\handwriting_recognition\\testdata";
+    public static final CharsSet charsSet = new CharsSet(33, 3200);
+
+    public static final String testDataPath = "C:\\dev\\handwriting-recognition\\testdata";
+
+    public static final String neuralNetworkPath = "C:\\dev\\handwriting-recognition\\neural_network";
+
+    public static final int[] neuralInHiddenLayers = new int[]{20};
 
     public static final int testDataCreatorGridDefaultWidth = 15;
 
