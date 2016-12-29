@@ -31,5 +31,5 @@ public abstract class DataCreatorConsole {
             data.setLetter(letter);
         }
         return data;
-    }   
+    }
 }

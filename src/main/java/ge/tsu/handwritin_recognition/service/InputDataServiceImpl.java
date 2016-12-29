@@ -22,7 +22,9 @@ public class InputDataServiceImpl implements InputDataService {
             }
         }
         double[] ans = new double[SystemParameter.charsSet.getNumberOfChars()];
-        ans[inputData.getLetter() - SystemParameter.charsSet.getFirstCharASCI()] = 1;
+        if (inputData.getLetter() != null) {
+            ans[inputData.getLetter() - SystemParameter.charsSet.getFirstCharASCI()] = 1;
+        }
         return new DataSetRow(input, ans);
     }
 
