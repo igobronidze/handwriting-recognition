@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class InputData implements Serializable {
 
+    public static final long serialVersionUID = 24636377L;
+
     private static final int MAX_WIDTH = 100;
 
     private static final int MAX_HEIGHT = 100;
