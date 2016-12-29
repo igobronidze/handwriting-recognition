@@ -4,7 +4,7 @@ import ge.tsu.handwritin_recognition.model.CharsSet;
 
 public class SystemParameter {
 
-    public static final CharsSet charsSet = new CharsSet('Z' - 'A' + 1, (int)'A');
+    public static final CharsSet charsSet = new CharsSet('ჰ' - 'ა' + 1, (int)'ა');
 
     public static final String testDataPath = "C:\\dev\\handwriting-recognition\\testdata";
 
@@ -12,11 +12,11 @@ public class SystemParameter {
 
     public static final int[] neuralInHiddenLayers = new int[]{};
 
-    public static final int numberOfDataSetRowInOneTraining = 10;
+    public static final int numberOfDataSetRowInOneTraining = 3;
 
-    public static final int testDataCreatorGridDefaultWidth = 15;
+    public static final int testDataCreatorGridDefaultWidth = 10;
 
-    public static final int testDataCreatorGridDefaultHeight = 15;
+    public static final int testDataCreatorGridDefaultHeight = 10;
 
     public static final int testDataCreatorGridMaxWidth = 100;
 
