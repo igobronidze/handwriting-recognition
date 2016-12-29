@@ -34,8 +34,12 @@ public class MyNeuralNetwork {
         }
         layers.add(SystemParameter.charsSet.getNumberOfChars());
         DataSet trainingSet = new DataSet(example.getHeight() * example.getWidth(), SystemParameter.charsSet.getNumberOfChars());
-        for (InputData inputData : inputDataList) {
-            trainingSet.addRow(inputDataService.getDataSetRow(inputData));
+        List<Integer> randomList = new ArrayList<>();
+        for (int i = 0; i < SystemParameter.charsSet.getNumberOfChars(); i++) {
+            randomList.add(i);
+        }
+        for (int i = 0; i < SystemParameter.numberOfDataSetRowInOneTraining; i++) {
+            trainingSet.addRow(inputDataService.getDataSetRow(inputDataList.get(randomList.get(i))));
         }
         MultiLayerPerceptron perceptron = new MultiLayerPerceptron(layers, TransferFunctionType.TANH);
         perceptron.learn(trainingSet);

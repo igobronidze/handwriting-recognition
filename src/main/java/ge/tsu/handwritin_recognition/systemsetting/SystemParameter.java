@@ -12,6 +12,8 @@ public class SystemParameter {
 
     public static final int[] neuralInHiddenLayers = new int[]{};
 
+    public static final int numberOfDataSetRowInOneTraining = 10;
+
     public static final int testDataCreatorGridDefaultWidth = 15;
 
     public static final int testDataCreatorGridDefaultHeight = 15;
