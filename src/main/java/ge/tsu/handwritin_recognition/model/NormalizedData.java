@@ -2,7 +2,7 @@ package ge.tsu.handwritin_recognition.model;
 
 import java.io.Serializable;
 
-public class InputData implements Serializable {
+public class NormalizedData implements Serializable {
 
     public static final long serialVersionUID = 24636377L;
 
@@ -18,32 +18,32 @@ public class InputData implements Serializable {
 
     private Character letter;
 
-    public InputData() {
+    public NormalizedData() {
         width = MAX_WIDTH;
         height = MAX_HEIGHT;
         grid = new boolean[height][width];
     }
 
-    public InputData(int height, int width) {
+    public NormalizedData(int height, int width) {
         this.width = width;
         this.height = height;
         grid = new boolean[height][width];
     }
 
-    public InputData(int height, int width, boolean[][] grid) {
+    public NormalizedData(int height, int width, boolean[][] grid) {
         this.width = width;
         this.height = height;
         this.grid = grid;
     }
 
-    public InputData(int height, int width, boolean[][] grid, Character letter) {
+    public NormalizedData(int height, int width, boolean[][] grid, Character letter) {
         this.width = width;
         this.height = height;
         this.grid = grid;
         this.letter = letter;
     }
 
-    public InputData(int height, int width, char letter) {
+    public NormalizedData(int height, int width, char letter) {
         this.width = width;
         this.height = height;
         this.letter = letter;

@@ -1,17 +1,17 @@
 package ge.tsu.handwritin_recognition.model;
 
-public class CharsSet {
+public class CharactersSet {
 
     private int numberOfChars;
 
     private int firstCharASCI;
 
-    public CharsSet() {
+    public CharactersSet() {
     }
 
-    public CharsSet(int numberOfChars, int firstCharASCI) {
-        this.numberOfChars = numberOfChars;
-        this.firstCharASCI = firstCharASCI;
+    public CharactersSet(char firstSymbol, char lastSymbol) {
+        numberOfChars = lastSymbol - firstSymbol + 1;
+        firstCharASCI = (int)firstSymbol;
     }
 
     public int getNumberOfChars() {
