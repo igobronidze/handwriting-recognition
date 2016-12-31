@@ -11,6 +11,7 @@ import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.util.TransferFunctionType;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MyNeuralNetwork {
@@ -33,14 +34,21 @@ public class MyNeuralNetwork {
         layers.add(SystemParameter.CHARACTERS_SET.getNumberOfChars());
         DataSet trainingSet = new DataSet(example.getHeight() * example.getWidth(), SystemParameter.CHARACTERS_SET.getNumberOfChars());
         List<Integer> randomList = new ArrayList<>();
-        for (int i = 0; i < SystemParameter.CHARACTERS_SET.getNumberOfChars(); i++) {
+        for (int i = 0; i < normalizedDataList.size(); i++) {
             randomList.add(i);
         }
+        Collections.shuffle(randomList);
         int min = Math.min(SystemParameter.numberOfDataSetRowInEachTraining, normalizedDataList.size());
         for (int i = 0; i < min; i++) {
+            System.out.println(normalizedDataList.get(randomList.get(i)).getLetter());
             trainingSet.addRow(normalizedDataService.getDataSetRow(normalizedDataList.get(randomList.get(i))));
         }
-        MultiLayerPerceptron perceptron = new MultiLayerPerceptron(layers, TransferFunctionType.TANH);
+        MultiLayerPerceptron perceptron = null;
+        try {
+            perceptron = (MultiLayerPerceptron) NeuralNetwork.createFromFile(SystemParameter.neuralNetworkPath);
+        } catch (Exception ex) {
+            perceptron = new MultiLayerPerceptron(layers, TransferFunctionType.SIGMOID);
+        }
         perceptron.learn(trainingSet);
         perceptron.save(SystemParameter.neuralNetworkPath);
     }

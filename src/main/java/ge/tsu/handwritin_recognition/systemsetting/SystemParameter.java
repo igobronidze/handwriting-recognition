@@ -5,9 +5,9 @@ import ge.tsu.handwritin_recognition.model.CharactersSet;
 public class SystemParameter {
 
     // ############################ Neuroph parameters
-    private static final char firstSymbol = 'a';
+    private static final char firstSymbol = 'A';
 
-    private static final char lastSymbol = 'z';
+    private static final char lastSymbol = 'Z';
 
     public static final CharactersSet CHARACTERS_SET = new CharactersSet(firstSymbol, lastSymbol);
 
@@ -17,7 +17,7 @@ public class SystemParameter {
 
     public static final int[] neuralInHiddenLayers = new int[]{};
 
-    public static final int numberOfDataSetRowInEachTraining = 3;
+    public static final int numberOfDataSetRowInEachTraining = Integer.MAX_VALUE;
 
     // ############################ DataCreatorWithGrid parameters
     public static final int testDataCreatorGridDefaultWidth = 5;
