@@ -5,7 +5,7 @@ import javafx.scene.control.Alert;
 public class ShowAlert {
 
     public static void showSimpleAlert(String text) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(text);
         alert.showAndWait();
     }

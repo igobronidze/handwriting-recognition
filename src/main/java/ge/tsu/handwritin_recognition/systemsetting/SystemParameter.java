@@ -1,22 +1,28 @@
 package ge.tsu.handwritin_recognition.systemsetting;
 
-import ge.tsu.handwritin_recognition.model.CharsSet;
+import ge.tsu.handwritin_recognition.model.CharactersSet;
 
 public class SystemParameter {
 
-    public static final CharsSet charsSet = new CharsSet('ჰ' - 'ა' + 1, (int)'ა');
+    // ############################ Neuroph parameters
+    private static final char firstSymbol = 'a';
 
-    public static final String testDataPath = "C:\\dev\\handwriting-recognition\\testdata";
+    private static final char lastSymbol = 'z';
 
-    public static final String neuralNetworkPath = "C:\\dev\\handwriting-recognition\\network\\network.nnet";
+    public static final CharactersSet CHARACTERS_SET = new CharactersSet(firstSymbol, lastSymbol);
+
+    public static final String testDataPath = "D:\\sg\\handwriting_recognition\\testdata";
+
+    public static final String neuralNetworkPath = "D:\\sg\\handwriting_recognition\\network\\network.nnet";
 
     public static final int[] neuralInHiddenLayers = new int[]{};
 
-    public static final int numberOfDataSetRowInOneTraining = 3;
+    public static final int numberOfDataSetRowInEachTraining = 3;
 
-    public static final int testDataCreatorGridDefaultWidth = 10;
+    // ############################ DataCreatorWithGrid parameters
+    public static final int testDataCreatorGridDefaultWidth = 5;
 
-    public static final int testDataCreatorGridDefaultHeight = 10;
+    public static final int testDataCreatorGridDefaultHeight = 5;
 
     public static final int testDataCreatorGridMaxWidth = 100;
 
