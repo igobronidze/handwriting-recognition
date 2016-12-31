@@ -20,9 +20,9 @@ public class SystemParameter {
     public static final int numberOfDataSetRowInEachTraining = Integer.MAX_VALUE;
 
     // ############################ DataCreatorWithGrid parameters
-    public static final int testDataCreatorGridDefaultWidth = 5;
+    public static final int testDataCreatorGridDefaultWidth = 9;
 
-    public static final int testDataCreatorGridDefaultHeight = 5;
+    public static final int testDataCreatorGridDefaultHeight = 9;
 
     public static final int testDataCreatorGridMaxWidth = 100;
 
