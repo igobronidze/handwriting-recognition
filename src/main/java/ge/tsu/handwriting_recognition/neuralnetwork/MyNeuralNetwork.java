@@ -1,9 +1,9 @@
-package ge.tsu.handwritin_recognition.neuralnetwork;
+package ge.tsu.handwriting_recognition.neuralnetwork;
 
-import ge.tsu.handwritin_recognition.model.NormalizedData;
-import ge.tsu.handwritin_recognition.service.NormalizedDataService;
-import ge.tsu.handwritin_recognition.service.NormalizedDataServiceImpl;
-import ge.tsu.handwritin_recognition.systemsetting.SystemParameter;
+import ge.tsu.handwriting_recognition.model.NormalizedData;
+import ge.tsu.handwriting_recognition.service.NormalizedDataService;
+import ge.tsu.handwriting_recognition.service.NormalizedDataServiceImpl;
+import ge.tsu.handwriting_recognition.systemsetting.SystemParameter;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;

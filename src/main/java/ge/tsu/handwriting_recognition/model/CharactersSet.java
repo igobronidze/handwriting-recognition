@@ -1,4 +1,4 @@
-package ge.tsu.handwritin_recognition.model;
+package ge.tsu.handwriting_recognition.model;
 
 public class CharactersSet {
 

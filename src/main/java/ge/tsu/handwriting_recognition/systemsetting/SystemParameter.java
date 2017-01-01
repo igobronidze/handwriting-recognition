@@ -1,6 +1,6 @@
-package ge.tsu.handwritin_recognition.systemsetting;
+package ge.tsu.handwriting_recognition.systemsetting;
 
-import ge.tsu.handwritin_recognition.model.CharactersSet;
+import ge.tsu.handwriting_recognition.model.CharactersSet;
 
 public class SystemParameter {
 
@@ -15,7 +15,7 @@ public class SystemParameter {
 
     public static final String neuralNetworkPath = "D:\\sg\\handwriting_recognition\\network\\network.nnet";
 
-    public static final int[] neuralInHiddenLayers = new int[]{};
+    public static final int[] neuralInHiddenLayers = new int[]{30};
 
     public static final int numberOfDataSetRowInEachTraining = Integer.MAX_VALUE;
 
@@ -35,4 +35,7 @@ public class SystemParameter {
     public static final String testDataCreatorDarkColor = "#001a1a";
 
     public static final String testDataCreatorBrightColor = "#e6ffff";
+
+    // ########################### Main parameters
+    public static final String languageCode = "KA";
 }
