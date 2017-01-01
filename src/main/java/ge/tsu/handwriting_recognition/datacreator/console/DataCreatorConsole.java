@@ -19,7 +19,7 @@ public abstract class DataCreatorConsole {
             for (int j = 0; j < width; j++) {
                 int tmp = scanner.nextInt();
                 if (tmp == -1) {
-                    System.out.println(Messages.get("") + System.lineSeparator());
+                    System.out.println(System.lineSeparator());
                     return createByScanner(withAns);
                 }
                 grid[i][j] = tmp != 0;
@@ -27,7 +27,7 @@ public abstract class DataCreatorConsole {
         }
         NormalizedData data = new NormalizedData(height, width, grid);
         if (withAns) {
-            System.out.println("სწორი პასუხი: ");
+            System.out.println(Messages.get("correctAnswer"));
             char letter = scanner.next().charAt(0);
             data.setLetter(letter);
         }

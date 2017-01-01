@@ -37,5 +37,5 @@ public class SystemParameter {
     public static final String testDataCreatorBrightColor = "#e6ffff";
 
     // ########################### Main parameters
-    public static final String languageCode = "KA";
+    public static final String languageCode = "EN";
 }
