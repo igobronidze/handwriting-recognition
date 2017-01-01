@@ -1,4 +1,4 @@
-package ge.tsu.handwriting_recognition.resources;
+package ge.tsu.handwriting_recognition.console.resources;
 
 import ge.tsu.handwriting_recognition.systemsetting.SystemParameter;
 

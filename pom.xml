@@ -8,6 +8,16 @@
   <packaging>jar</packaging>
  
   <name>Handwriting Recognition</name>
+
+  <contributors>
+    <contributor>
+      <name>Iosebi</name>
+      <email>ioseb.gobronidze@azry.com</email>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </contributor>
+  </contributors>
  
   <dependencies>
     <dependency>
@@ -38,7 +48,7 @@
             <artifactId>javafx-maven-plugin</artifactId>
             <version>8.5.0</version>
             <configuration>
-                <mainClass>ge.tsu.handwriting_recognition.datacreator.ui.DataCreatorWithGrid</mainClass>
+                <mainClass>ge.tsu.handwriting_recognition.console.resources.DataCreatorWithGrid</mainClass>
             </configuration>
         </plugin>
     </plugins>

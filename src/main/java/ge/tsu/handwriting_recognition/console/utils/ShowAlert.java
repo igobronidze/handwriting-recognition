@@ -1,4 +1,4 @@
-package ge.tsu.handwriting_recognition.utils.fxutils;
+package ge.tsu.handwriting_recognition.console.utils;
 
 import javafx.scene.control.Alert;
 
