@@ -1,7 +1,7 @@
-package ge.tsu.handwritin_recognition.service;
+package ge.tsu.handwriting_recognition.service;
 
-import ge.tsu.handwritin_recognition.model.NormalizedData;
-import ge.tsu.handwritin_recognition.systemsetting.SystemParameter;
+import ge.tsu.handwriting_recognition.model.NormalizedData;
+import ge.tsu.handwriting_recognition.systemsetting.SystemParameter;
 import org.neuroph.core.data.DataSetRow;
 
 import java.io.File;
