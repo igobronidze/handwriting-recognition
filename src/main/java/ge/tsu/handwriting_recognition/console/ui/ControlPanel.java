@@ -45,6 +45,7 @@ public class ControlPanel extends Application {
         flowPane.setHgap(10);
         flowPane.setVgap(10);
         addButton(new DataCreatorWithGrid(), Messages.get("dataCreatorWithGrid"));
+        addButton(new SystemParameterWindow(), Messages.get("systemParameter"));
         root.getChildren().addAll(flowPane);
     }
 

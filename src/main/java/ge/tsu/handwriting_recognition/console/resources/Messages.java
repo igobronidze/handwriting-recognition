@@ -1,5 +1,7 @@
 package ge.tsu.handwriting_recognition.console.resources;
 
+import ge.tsu.handwriting_recognition.service.SystemParameterService;
+import ge.tsu.handwriting_recognition.service.SystemParameterServiceImpl;
 import ge.tsu.handwriting_recognition.systemsetting.SystemParameter;
 
 import java.io.IOException;
@@ -11,6 +13,8 @@ import java.util.Map;
 import java.util.Properties;
 
 public class Messages {
+
+    private static SystemParameterService systemParameterService = new SystemParameterServiceImpl();
 
     private static Map<String, Properties> messages = new HashMap<>();
 
@@ -34,6 +38,6 @@ public class Messages {
     }
 
     public static String get(String key) {
-        return get(key, SystemParameter.languageCode);
+        return get(key, systemParameterService.getSystemParameterValue("systemLanguageCode", "KA"));
     }
 }

@@ -1,15 +1,15 @@
 package ge.tsu.handwriting_recognition.model;
 
-public class CharactersSet {
+public class CharSequence {
 
     private int numberOfChars;
 
     private int firstCharASCI;
 
-    public CharactersSet() {
+    public CharSequence() {
     }
 
-    public CharactersSet(char firstSymbol, char lastSymbol) {
+    public CharSequence(char firstSymbol, char lastSymbol) {
         numberOfChars = lastSymbol - firstSymbol + 1;
         firstCharASCI = (int)firstSymbol;
     }
