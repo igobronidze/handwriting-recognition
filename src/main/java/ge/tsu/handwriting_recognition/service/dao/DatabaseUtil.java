@@ -1,4 +1,4 @@
-package ge.tsu.handwriting_recognition.model.dao;
+package ge.tsu.handwriting_recognition.service.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,7 +24,7 @@ public class DatabaseUtil {
         return connection;
     }
 
-    private static void closeConnection() {
+    public static void closeConnection() {
         try {
             connection.close();
         } catch (SQLException ex) {

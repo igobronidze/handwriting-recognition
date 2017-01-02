@@ -1,5 +1,6 @@
 package ge.tsu.handwriting_recognition.service;
 
+import ge.tsu.handwriting_recognition.model.CharSequence;
 import ge.tsu.handwriting_recognition.model.NormalizedData;
 import ge.tsu.handwriting_recognition.systemsetting.SystemParameter;
 import org.neuroph.core.data.DataSetRow;
@@ -13,6 +14,14 @@ import java.util.List;
 
 public class NormalizedDataServiceImpl implements NormalizedDataService {
 
+    private SystemParameterService systemParameterService = new SystemParameterServiceImpl();
+
+    private char firstSymbolInCharSequence = systemParameterService.getSystemParameterValue("firstSymbolInCharSequence", "ა").charAt(0);
+
+    private char lastSymbolInCharSequence = systemParameterService.getSystemParameterValue("lastSymbolInCharSequence", "ა").charAt(0);
+
+    private CharSequence charSequence = new CharSequence(firstSymbolInCharSequence, lastSymbolInCharSequence);
+
     @Override
     public DataSetRow getDataSetRow(NormalizedData normalizedData) {
         double[] input = new double[normalizedData.getHeight() * normalizedData.getWidth()];
@@ -21,9 +30,9 @@ public class NormalizedDataServiceImpl implements NormalizedDataService {
                 input[i * normalizedData.getHeight() + j] = normalizedData.getGrid()[i][j] ? 1 : 0;
             }
         }
-        double[] ans = new double[SystemParameter.CHARACTERS_SET.getNumberOfChars()];
+        double[] ans = new double[charSequence.getNumberOfChars()];
         if (normalizedData.getLetter() != null) {
-            ans[normalizedData.getLetter() - SystemParameter.CHARACTERS_SET.getFirstCharASCI()] = 1;
+            ans[normalizedData.getLetter() - charSequence.getFirstCharASCI()] = 1;
         }
         return new DataSetRow(input, ans);
     }
@@ -31,7 +40,7 @@ public class NormalizedDataServiceImpl implements NormalizedDataService {
     @Override
     public List<NormalizedData> getInputDatas(String folderName) {
         List<NormalizedData> normalizedDataList = new ArrayList<>();
-        String path = SystemParameter.testDataPath + "/" + folderName;
+        String path = systemParameterService.getSystemParameterValue("testDataPath", "D:\\sg\\handwriting_recognition\\testdata") + "/" + folderName;
         File folder = new File(path);
         for (File file : folder.listFiles()) {
             if (!file.isDirectory()) {
