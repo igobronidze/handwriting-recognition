@@ -83,7 +83,7 @@ public class NormalizedDataDAOImpl implements NormalizedDataDAO {
                         grid[i][j] = array[i * wid + j];
                     }
                 }
-                NormalizedData normalizedData = new NormalizedData(wid, heig, grid, letter, charSequence, gen);
+                NormalizedData normalizedData = new NormalizedData(wid, heig, grid, letter, chSeq, gen);
                 normalizedDataList.add(normalizedData);
             }
         } catch (SQLException ex) {
