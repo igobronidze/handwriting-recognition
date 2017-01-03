@@ -21,7 +21,7 @@ public class MyNeuralNetwork {
 
     private static SystemParameterService systemParameterService = new SystemParameterServiceImpl();
 
-    private static NormalizedDataService normalizedDataService;
+    private static NormalizedDataService normalizedDataService = new NormalizedDataServiceImpl();
 
     private static char firstSymbolInCharSequence = systemParameterService.getSystemParameterValue("firstSymbolInCharSequence", "ა").charAt(0);
 
@@ -29,14 +29,14 @@ public class MyNeuralNetwork {
 
     private static CharSequence charSequence = new CharSequence(firstSymbolInCharSequence, lastSymbolInCharSequence);
 
-    public static void trainNeural(List<NormalizedData> normalizedDataList) {
+    public static void trainNeural(int width, int height, String generation) {
+        List<NormalizedData> normalizedDataList = normalizedDataService.getNormalizedDatas(width, height, charSequence, generation);
         NormalizedData example;
         if (normalizedDataList.isEmpty()) {
             return;
         } else {
             example = normalizedDataList.get(0);
         }
-        normalizedDataService = new NormalizedDataServiceImpl();
         List<Integer> layers = new ArrayList<>();
         layers.add(example.getHeight() * example.getWidth());
         for (int x : StringUtils.getIntegerListFromString(systemParameterService.getSystemParameterValue("neuralInHiddenLayers", ""), ",")) {
@@ -66,7 +66,6 @@ public class MyNeuralNetwork {
     }
 
     public static char guessCharacter(NormalizedData normalizedData) {
-        NormalizedDataService normalizedDataService = new NormalizedDataServiceImpl();
         NeuralNetwork neuralNetwork = NeuralNetwork.createFromFile(systemParameterService.getSystemParameterValue("neuralNetworkPath",
                 "D:\\sg\\handwriting_recognition\\network\\network.nnet"));
         DataSetRow dataSetRow = normalizedDataService.getDataSetRow(normalizedData);

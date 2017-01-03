@@ -20,6 +20,12 @@ public class NormalizedData implements Serializable {
     public NormalizedData() {
     }
 
+    public NormalizedData(int width, int height, boolean[][] grid) {
+        this.width = width;
+        this.height = height;
+        this.grid = grid;
+    }
+
     public NormalizedData(int width, int height, boolean[][] grid, Character letter, CharSequence charSequence, String trainingSetGeneration) {
         this.width = width;
         this.height = height;

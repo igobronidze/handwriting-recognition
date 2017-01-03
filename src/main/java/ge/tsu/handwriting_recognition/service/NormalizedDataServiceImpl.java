@@ -21,7 +21,7 @@ public class NormalizedDataServiceImpl implements NormalizedDataService {
 
     private char firstSymbolInCharSequence = systemParameterService.getSystemParameterValue("firstSymbolInCharSequence", "ა").charAt(0);
 
-    private char lastSymbolInCharSequence = systemParameterService.getSystemParameterValue("lastSymbolInCharSequence", "ა").charAt(0);
+    private char lastSymbolInCharSequence = systemParameterService.getSystemParameterValue("lastSymbolInCharSequence", "ჰ").charAt(0);
 
     private CharSequence charSequence = new CharSequence(firstSymbolInCharSequence, lastSymbolInCharSequence);
 
@@ -41,32 +41,12 @@ public class NormalizedDataServiceImpl implements NormalizedDataService {
     }
 
     @Override
-    public List<NormalizedData> getInputDatas(String folderName) {
-        List<NormalizedData> normalizedDataList = new ArrayList<>();
-        String path = systemParameterService.getSystemParameterValue("testDataPath", "D:\\sg\\handwriting_recognition\\testdata") + "/" + folderName;
-        File folder = new File(path);
-        for (File file : folder.listFiles()) {
-            if (!file.isDirectory()) {
-                try {
-                    ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
-                    NormalizedData normalizedData = (NormalizedData)in.readObject();
-                    normalizedDataList.add(normalizedData);
-                } catch (IOException | ClassNotFoundException ex) {
-                    System.out.println("Something wrong on file " + file.getAbsolutePath());
-                    System.out.println(ex.getMessage());
-                }
-            }
-        }
-        return normalizedDataList;
-    }
-
-    @Override
     public void addNormalizedData(NormalizedData normalizedData) {
         normalizedDataDAO.addNormalizedData(normalizedData);
     }
 
     @Override
-    public List<NormalizedData> getNormalizedDatas(Integer length, Integer height, CharSequence charSequence, String generation) {
-        return normalizedDataDAO.getNormalizedDatas(length, height, charSequence, generation);
+    public List<NormalizedData> getNormalizedDatas(Integer widht, Integer height, CharSequence charSequence, String generation) {
+        return normalizedDataDAO.getNormalizedDatas(widht, height, charSequence, generation);
     }
 }
