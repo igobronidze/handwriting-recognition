@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MyNeuralNetwork {
+public class NeuralNetworkWithNeuroph {
 
     private static SystemParameterService systemParameterService = new SystemParameterServiceImpl();
 
@@ -31,19 +31,13 @@ public class MyNeuralNetwork {
 
     public static void trainNeural(int width, int height, String generation) {
         List<NormalizedData> normalizedDataList = normalizedDataService.getNormalizedDatas(width, height, charSequence, generation);
-        NormalizedData example;
-        if (normalizedDataList.isEmpty()) {
-            return;
-        } else {
-            example = normalizedDataList.get(0);
-        }
         List<Integer> layers = new ArrayList<>();
-        layers.add(example.getHeight() * example.getWidth());
+        layers.add(width * height);
         for (int x : StringUtils.getIntegerListFromString(systemParameterService.getSystemParameterValue("neuralInHiddenLayers", ""), ",")) {
             layers.add(x);
         }
         layers.add(charSequence.getNumberOfChars());
-        DataSet trainingSet = new DataSet(example.getHeight() * example.getWidth(), charSequence.getNumberOfChars());
+        DataSet trainingSet = new DataSet(width * height, charSequence.getNumberOfChars());
         List<Integer> randomList = new ArrayList<>();
         for (int i = 0; i < normalizedDataList.size(); i++) {
             randomList.add(i);
@@ -51,7 +45,6 @@ public class MyNeuralNetwork {
         Collections.shuffle(randomList);
         int min = Math.min(Integer.parseInt(systemParameterService.getSystemParameterValue("numberOfDataSetRowInEachTraining", "2000000000")), normalizedDataList.size());
         for (int i = 0; i < min; i++) {
-            System.out.println(normalizedDataList.get(randomList.get(i)).getLetter());
             trainingSet.addRow(normalizedDataService.getDataSetRow(normalizedDataList.get(randomList.get(i))));
         }
         MultiLayerPerceptron perceptron = null;

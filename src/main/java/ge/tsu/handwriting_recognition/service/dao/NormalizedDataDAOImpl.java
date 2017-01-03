@@ -26,14 +26,7 @@ public class NormalizedDataDAOImpl implements NormalizedDataDAO {
             pstmt.setString(4, "" + normalizedData.getCharSequence().getFirstSymbol());
             pstmt.setString(5, "" + normalizedData.getCharSequence().getLastSymbol());
             pstmt.setString(6, normalizedData.getTrainingSetGeneration());
-            Boolean[] array = new Boolean[normalizedData.getWidth() * normalizedData.getHeight()];
-            for (int i = 0; i < normalizedData.getHeight(); i++) {
-                for (int j = 0; j < normalizedData.getWidth(); j++) {
-                    array[i * normalizedData.getWidth() + j] = normalizedData.getGrid()[i][j];
-                }
-            }
-            Array sqlArray = DatabaseUtil.getConnection().createArrayOf("BOOLEAN", array);
-            pstmt.setArray(7, sqlArray);
+            pstmt.setArray(7, DatabaseUtil.getConnection().createArrayOf("float4", normalizedData.getData()));
             pstmt.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -76,14 +69,8 @@ public class NormalizedDataDAOImpl implements NormalizedDataDAO {
                 }
                 String gen = rs.getString("generation");
                 Array sqlArray = rs.getArray("data");
-                Boolean[] array = (Boolean[])sqlArray.getArray();
-                boolean[][] grid = new boolean[heig][wid];
-                for (int i = 0; i < heig; i++) {
-                    for (int j = 0; j < wid; j++) {
-                        grid[i][j] = array[i * wid + j];
-                    }
-                }
-                NormalizedData normalizedData = new NormalizedData(wid, heig, grid, letter, chSeq, gen);
+                Float[] data = (Float[])sqlArray.getArray();
+                NormalizedData normalizedData = new NormalizedData(wid, heig, data, letter, chSeq, gen);
                 normalizedDataList.add(normalizedData);
             }
         } catch (SQLException ex) {

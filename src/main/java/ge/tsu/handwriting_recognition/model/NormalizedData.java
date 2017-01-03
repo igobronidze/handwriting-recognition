@@ -9,7 +9,7 @@ public class NormalizedData implements Serializable {
 
     private int height;
 
-    private boolean grid[][];
+    private Float[] data;
 
     private Character letter;
 
@@ -20,16 +20,16 @@ public class NormalizedData implements Serializable {
     public NormalizedData() {
     }
 
-    public NormalizedData(int width, int height, boolean[][] grid) {
+    public NormalizedData(int width, int height, Float[] data) {
         this.width = width;
         this.height = height;
-        this.grid = grid;
+        this.data = data;
     }
 
-    public NormalizedData(int width, int height, boolean[][] grid, Character letter, CharSequence charSequence, String trainingSetGeneration) {
+    public NormalizedData(int width, int height, Float[] data, Character letter, CharSequence charSequence, String trainingSetGeneration) {
         this.width = width;
         this.height = height;
-        this.grid = grid;
+        this.data = data;
         this.letter = letter;
         this.charSequence = charSequence;
         this.trainingSetGeneration = trainingSetGeneration;
@@ -51,12 +51,12 @@ public class NormalizedData implements Serializable {
         this.height = height;
     }
 
-    public boolean[][] getGrid() {
-        return grid;
+    public Float[] getData() {
+        return data;
     }
 
-    public void setGrid(boolean[][] grid) {
-        this.grid = grid;
+    public void setData(Float[] data) {
+        this.data = data;
     }
 
     public Character getLetter() {
@@ -88,7 +88,7 @@ public class NormalizedData implements Serializable {
         return "NormalizedData{" +
                 "width=" + width +
                 ", height=" + height +
-                ", grid=" + Arrays.toString(grid) +
+                ", grid=" + Arrays.toString(data) +
                 ", letter=" + letter +
                 ", charSequence=" + charSequence +
                 ", trainingSetGeneration='" + trainingSetGeneration + '\'' +
