@@ -2,6 +2,10 @@ package ge.tsu.handwriting_recognition.model;
 
 public class CharSequence {
 
+    private char firstSymbol;
+
+    private char lastSymbol;
+
     private int numberOfChars;
 
     private int firstCharASCI;
@@ -10,8 +14,10 @@ public class CharSequence {
     }
 
     public CharSequence(char firstSymbol, char lastSymbol) {
-        numberOfChars = lastSymbol - firstSymbol + 1;
-        firstCharASCI = (int)firstSymbol;
+        this.firstSymbol = firstSymbol;
+        this.lastSymbol = lastSymbol;
+        this.numberOfChars = lastSymbol - firstSymbol + 1;
+        this.firstCharASCI = (int)firstSymbol;
     }
 
     public int getNumberOfChars() {
@@ -28,5 +34,21 @@ public class CharSequence {
 
     public void setFirstCharASCI(int firstCharASCI) {
         this.firstCharASCI = firstCharASCI;
+    }
+
+    public char getFirstSymbol() {
+        return firstSymbol;
+    }
+
+    public void setFirstSymbol(char firstSymbol) {
+        this.firstSymbol = firstSymbol;
+    }
+
+    public char getLastSymbol() {
+        return lastSymbol;
+    }
+
+    public void setLastSymbol(char lastSymbol) {
+        this.lastSymbol = lastSymbol;
     }
 }

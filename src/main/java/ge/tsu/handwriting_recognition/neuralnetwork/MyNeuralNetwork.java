@@ -7,7 +7,6 @@ import ge.tsu.handwriting_recognition.service.NormalizedDataService;
 import ge.tsu.handwriting_recognition.service.NormalizedDataServiceImpl;
 import ge.tsu.handwriting_recognition.service.SystemParameterService;
 import ge.tsu.handwriting_recognition.service.SystemParameterServiceImpl;
-import ge.tsu.handwriting_recognition.systemsetting.SystemParameter;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;

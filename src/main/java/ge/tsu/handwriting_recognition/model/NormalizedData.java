@@ -1,14 +1,9 @@
 package ge.tsu.handwriting_recognition.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class NormalizedData implements Serializable {
-
-    public static final long serialVersionUID = 24636377L;
-
-    private static final int MAX_WIDTH = 100;
-
-    private static final int MAX_HEIGHT = 100;
 
     private int width;
 
@@ -18,35 +13,20 @@ public class NormalizedData implements Serializable {
 
     private Character letter;
 
+    private CharSequence charSequence;
+
+    private String trainingSetGeneration;
+
     public NormalizedData() {
-        width = MAX_WIDTH;
-        height = MAX_HEIGHT;
-        grid = new boolean[height][width];
     }
 
-    public NormalizedData(int height, int width) {
-        this.width = width;
-        this.height = height;
-        grid = new boolean[height][width];
-    }
-
-    public NormalizedData(int height, int width, boolean[][] grid) {
-        this.width = width;
-        this.height = height;
-        this.grid = grid;
-    }
-
-    public NormalizedData(int height, int width, boolean[][] grid, Character letter) {
+    public NormalizedData(int width, int height, boolean[][] grid, Character letter, CharSequence charSequence, String trainingSetGeneration) {
         this.width = width;
         this.height = height;
         this.grid = grid;
         this.letter = letter;
-    }
-
-    public NormalizedData(int height, int width, char letter) {
-        this.width = width;
-        this.height = height;
-        this.letter = letter;
+        this.charSequence = charSequence;
+        this.trainingSetGeneration = trainingSetGeneration;
     }
 
     public int getWidth() {
@@ -81,20 +61,31 @@ public class NormalizedData implements Serializable {
         this.letter = letter;
     }
 
+    public CharSequence getCharSequence() {
+        return charSequence;
+    }
+
+    public void setCharSequence(CharSequence charSequence) {
+        this.charSequence = charSequence;
+    }
+
+    public String getTrainingSetGeneration() {
+        return trainingSetGeneration;
+    }
+
+    public void setTrainingSetGeneration(String trainingSetGeneration) {
+        this.trainingSetGeneration = trainingSetGeneration;
+    }
+
     @Override
     public String toString() {
-        String info = "";
-        info += "სიმაღლე: " + height + System.lineSeparator();
-        info += "სიგრძე: " + width + System.lineSeparator();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                info += (grid[i][j] ? 1 : 0) + " ";
-            }
-            info += System.lineSeparator();
-        }
-        if (letter != (char) 0) {
-            info += "სწორი პასუხი: " + letter + System.lineSeparator();
-        }
-        return info;
+        return "NormalizedData{" +
+                "width=" + width +
+                ", height=" + height +
+                ", grid=" + Arrays.toString(grid) +
+                ", letter=" + letter +
+                ", charSequence=" + charSequence +
+                ", trainingSetGeneration='" + trainingSetGeneration + '\'' +
+                '}';
     }
 }

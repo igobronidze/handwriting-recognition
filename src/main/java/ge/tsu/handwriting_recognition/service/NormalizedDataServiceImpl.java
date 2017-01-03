@@ -2,7 +2,8 @@ package ge.tsu.handwriting_recognition.service;
 
 import ge.tsu.handwriting_recognition.model.CharSequence;
 import ge.tsu.handwriting_recognition.model.NormalizedData;
-import ge.tsu.handwriting_recognition.systemsetting.SystemParameter;
+import ge.tsu.handwriting_recognition.service.dao.NormalizedDataDAO;
+import ge.tsu.handwriting_recognition.service.dao.NormalizedDataDAOImpl;
 import org.neuroph.core.data.DataSetRow;
 
 import java.io.File;
@@ -15,6 +16,8 @@ import java.util.List;
 public class NormalizedDataServiceImpl implements NormalizedDataService {
 
     private SystemParameterService systemParameterService = new SystemParameterServiceImpl();
+
+    private NormalizedDataDAO normalizedDataDAO = new NormalizedDataDAOImpl();
 
     private char firstSymbolInCharSequence = systemParameterService.getSystemParameterValue("firstSymbolInCharSequence", "ა").charAt(0);
 
@@ -55,5 +58,15 @@ public class NormalizedDataServiceImpl implements NormalizedDataService {
             }
         }
         return normalizedDataList;
+    }
+
+    @Override
+    public void addNormalizedData(NormalizedData normalizedData) {
+        normalizedDataDAO.addNormalizedData(normalizedData);
+    }
+
+    @Override
+    public List<NormalizedData> getNormalizedDatas(Integer length, Integer height, CharSequence charSequence, String generation) {
+        return normalizedDataDAO.getNormalizedDatas(length, height, charSequence, generation);
     }
 }
