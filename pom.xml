@@ -4,7 +4,7 @@
 
     <groupId>ge.tsu.handwriting_recognition</groupId>
     <artifactId>handwriting_recognition</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
 
     <name>Handwriting Recognition</name>

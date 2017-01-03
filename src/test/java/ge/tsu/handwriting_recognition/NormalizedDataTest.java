@@ -20,7 +20,7 @@ public class NormalizedDataTest {
         normalizedData.setHeight(2);
         normalizedData.setWidth(4);
         normalizedData.setCharSequence(new CharSequence('A', 'Z'));
-        normalizedData.setGrid(new boolean[][] {{true, true, false, true},{false, true, false, false}});
+        normalizedData.setData(new Float[] {1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f});
         normalizedData.setLetter('K');
         normalizedData.setTrainingSetGeneration("testGeneration");
     }

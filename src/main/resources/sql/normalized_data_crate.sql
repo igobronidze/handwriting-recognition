@@ -6,5 +6,5 @@ CREATE TABLE normalized_data (
     first_symbol VARCHAR(1),
     last_symbol VARCHAR(1),
     generation VARCHAR(100),
-    data BOOLEAN[]
+    data REAL[]
     );
