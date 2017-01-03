@@ -2,7 +2,6 @@ package ge.tsu.handwriting_recognition.console.resources;
 
 import ge.tsu.handwriting_recognition.service.SystemParameterService;
 import ge.tsu.handwriting_recognition.service.SystemParameterServiceImpl;
-import ge.tsu.handwriting_recognition.systemsetting.SystemParameter;
 
 import java.io.IOException;
 import java.io.InputStream;
