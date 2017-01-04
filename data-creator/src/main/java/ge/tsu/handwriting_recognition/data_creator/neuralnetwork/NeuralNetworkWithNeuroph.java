@@ -17,19 +17,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class NeuralNetworkWithNeuroph {
+public class NeuralNetworkWithNeuroph implements INeuralNetwork {
 
-    private static SystemParameterService systemParameterService = new SystemParameterServiceImpl();
+    private SystemParameterService systemParameterService = new SystemParameterServiceImpl();
 
-    private static NormalizedDataService normalizedDataService = new NormalizedDataServiceImpl();
+    private NormalizedDataService normalizedDataService = new NormalizedDataServiceImpl();
 
-    private static char firstSymbolInCharSequence = systemParameterService.getSystemParameterValue("firstSymbolInCharSequence", "ა").charAt(0);
+    private char firstSymbolInCharSequence = systemParameterService.getSystemParameterValue("firstSymbolInCharSequence", "ა").charAt(0);
 
-    private static char lastSymbolInCharSequence = systemParameterService.getSystemParameterValue("lastSymbolInCharSequence", "ა").charAt(0);
+    private char lastSymbolInCharSequence = systemParameterService.getSystemParameterValue("lastSymbolInCharSequence", "ა").charAt(0);
 
-    private static CharSequence charSequence = new CharSequence(firstSymbolInCharSequence, lastSymbolInCharSequence);
+    private CharSequence charSequence = new CharSequence(firstSymbolInCharSequence, lastSymbolInCharSequence);
 
-    public static void trainNeural(int width, int height, String generation) {
+    private String neuralNetworkPath = systemParameterService.getSystemParameterValue("neuralNetworkPath", "D:\\sg\\handwriting_recognition\\network\\network.nnet");
+
+    public void trainNeural(int width, int height, String generation) {
         List<NormalizedData> normalizedDataList = normalizedDataService.getNormalizedDatas(width, height, charSequence, generation);
         List<Integer> layers = new ArrayList<>();
         layers.add(width * height);
@@ -49,18 +51,16 @@ public class NeuralNetworkWithNeuroph {
         }
         MultiLayerPerceptron perceptron = null;
         try {
-            perceptron = (MultiLayerPerceptron) NeuralNetwork.createFromFile(systemParameterService.getSystemParameterValue("neuralNetworkPath",
-                    "D:\\sg\\handwriting_recognition\\network\\network.nnet"));
+            perceptron = (MultiLayerPerceptron) NeuralNetwork.createFromFile(neuralNetworkPath);
         } catch (Exception ex) {
             perceptron = new MultiLayerPerceptron(layers, TransferFunctionType.SIGMOID);
         }
         perceptron.learn(trainingSet);
-        perceptron.save(systemParameterService.getSystemParameterValue("neuralNetworkPath", "D:\\sg\\handwriting_recognition\\network\\network.nnet"));
+        perceptron.save(neuralNetworkPath);
     }
 
-    public static char guessCharacter(NormalizedData normalizedData) {
-        NeuralNetwork neuralNetwork = NeuralNetwork.createFromFile(systemParameterService.getSystemParameterValue("neuralNetworkPath",
-                "D:\\sg\\handwriting_recognition\\network\\network.nnet"));
+    public char guessCharacter(NormalizedData normalizedData) {
+        NeuralNetwork neuralNetwork = NeuralNetwork.createFromFile(neuralNetworkPath);
         DataSetRow dataSetRow = normalizedDataService.getDataSetRow(normalizedData);
         neuralNetwork.setInput(dataSetRow.getInput());
         neuralNetwork.calculate();

@@ -16,8 +16,7 @@ public class SimpleNeuralTest {
     @Ignore
     public void neuralNetworkXORTest() throws NeuralNetworkException, InterruptedException{
         List<Integer> sizes = new ArrayList<>(Arrays.asList(2, 5, 5, 1));
-        NeuralNetwork neuralNetwork = new NeuralNetwork();
-        neuralNetwork.create(sizes);
+        NeuralNetwork neuralNetwork = new NeuralNetwork(sizes);
 
         List<Float> input1 = new ArrayList<>(Arrays.asList(0.0f, 0.0f));
         List<Float> output1 = new ArrayList<>(Arrays.asList(0.0f));
