@@ -71,7 +71,7 @@ public class NeuralNetwork implements Serializable {
         this.outputNeurons = outputNeurons;
     }
 
-    public void create(List<Integer> layersSize) throws NeuralNetworkException {
+    public NeuralNetwork(List<Integer> layersSize) throws NeuralNetworkException {
         this.layersSize = layersSize;
         if (layersSize.size() < 2) {
             throw new NeuralNetworkException("layers must be more than 1");

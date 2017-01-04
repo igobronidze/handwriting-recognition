@@ -4,8 +4,10 @@ import ge.tsu.handwriting_recognition.data_creator.model.CharSequence;
 import ge.tsu.handwriting_recognition.data_creator.model.NormalizedData;
 import ge.tsu.handwriting_recognition.data_creator.service.dao.NormalizedDataDAO;
 import ge.tsu.handwriting_recognition.data_creator.service.dao.NormalizedDataDAOImpl;
+import ge.tsu.handwriting_recognition.neural_network.neural.TrainingData;
 import org.neuroph.core.data.DataSetRow;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NormalizedDataServiceImpl implements NormalizedDataService {
@@ -32,6 +34,23 @@ public class NormalizedDataServiceImpl implements NormalizedDataService {
             ans[normalizedData.getLetter() - charSequence.getFirstCharASCI()] = 1;
         }
         return new DataSetRow(input, ans);
+    }
+
+    @Override
+    public TrainingData getTrainingData(NormalizedData normalizedData) {
+        Float[] data = normalizedData.getData();
+        List<Float> input = new ArrayList<>();
+        for (int i = 0; i < data.length; i++) {
+            input.add(data[i]);
+        }
+        if (normalizedData.getLetter() != null) {
+            List<Float> output = new ArrayList<>();
+            for (int i = 0; i < charSequence.getNumberOfChars(); i++) {
+                output.add(i == normalizedData.getLetter() - charSequence.getFirstCharASCI() ? 1.0f : 0.0f);
+            }
+            return new TrainingData(input, output);
+        }
+        return new TrainingData(input);
     }
 
     @Override
