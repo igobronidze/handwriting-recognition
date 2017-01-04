@@ -1,6 +1,6 @@
 package ge.tsu.handwriting_recognition.neural_network.transfer;
 
-public class SigmoidFunction extends TransferFunction {
+public class SigmoidFunction implements TransferFunction {
 
     @Override
     public float transfer(float value) {
