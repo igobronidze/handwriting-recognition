@@ -1,7 +1,5 @@
 package ge.tsu.handwriting_recognition.neural_network.neural;
 
-import ge.tsu.handwriting_recognition.neural_network.main.NeuralNetworkParameter;
-
 import java.util.List;
 
 public class Backpropagation {
@@ -21,7 +19,7 @@ public class Backpropagation {
                 Neuron leftNeuron = connection.getLeftNeuron();
                 float leftNeuronOutput = leftNeuron.getActivationValue();
                 float partialDerivative = delta * leftNeuronOutput;
-                connection.setWeight(connection.getWeight() - NeuralNetworkParameter.learningRate * partialDerivative);
+                connection.setWeight(connection.getWeight() - neuralNetwork.getNeuralNetworkParameter().getLearningRate() * partialDerivative);
             }
         }
         for (int i = hiddenNeurons.size() - 1; i >= 0; i--) {
@@ -37,7 +35,7 @@ public class Backpropagation {
             for (int j = 0; j < rightNeuron.getInConnections().size(); j++) {
                 Connection connection = rightNeuron.getInConnections().get(j);
                 float partialDerivative = delta * connection.getLeftNeuron().getActivationValue();
-                connection.setWeight(connection.getWeight() - NeuralNetworkParameter.learningRate * partialDerivative);
+                connection.setWeight(connection.getWeight() - neuralNetwork.getNeuralNetworkParameter().getLearningRate() * partialDerivative);
             }
         }
     }
