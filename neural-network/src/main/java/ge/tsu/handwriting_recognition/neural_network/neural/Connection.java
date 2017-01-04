@@ -6,21 +6,11 @@ public class Connection implements Serializable {
 
     public static final long serialVersionUID = 134252L;
 
-    private int id;
-
     private float weight;
 
-    private transient Neuron leftNeuron;
+    private Neuron leftNeuron;
 
-    private transient Neuron rightNeuron;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private Neuron rightNeuron;
 
     public float getWeight() {
         return weight;

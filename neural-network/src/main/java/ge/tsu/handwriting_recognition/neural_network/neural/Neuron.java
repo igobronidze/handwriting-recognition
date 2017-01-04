@@ -8,8 +8,6 @@ public class Neuron implements Serializable {
 
     public static final long serialVersionUID = 7356392L;
 
-    private int id;
-
     private float bias;
 
     private float delta;
@@ -19,14 +17,6 @@ public class Neuron implements Serializable {
     private List<Connection> outConnections = new ArrayList<>();
 
     private float activationValue;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public float getBias() {
         return bias;

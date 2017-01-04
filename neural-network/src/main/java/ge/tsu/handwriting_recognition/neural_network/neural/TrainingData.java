@@ -1,13 +1,19 @@
 package ge.tsu.handwriting_recognition.neural_network.neural;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrainingData {
+public class TrainingData implements Serializable {
 
     private List<Float> input = new ArrayList<>();
 
     private List<Float> output = new ArrayList<>();
+
+    public TrainingData(List<Float> input) {
+        this.input.clear();
+        this.input.addAll(input);
+    }
 
     public TrainingData(List<Float> input, List<Float> output) {
         this.input.clear();

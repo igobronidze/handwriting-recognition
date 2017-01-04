@@ -1,7 +1,5 @@
 package ge.tsu.handwriting_recognition.neural_network.neural;
 
-import ge.tsu.handwriting_recognition.neural_network.main.NeuralNetworkParameter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class Activation {
                 sum += connection.getWeight() * connection.getLeftNeuron().getActivationValue();
             }
             sum += neuron.getBias();
-            neuron.setActivationValue(NeuralNetworkParameter.transferFunction.transfer(sum));
+            neuron.setActivationValue(neuralNetwork.getNeuralNetworkParameter().getTransferFunction().transfer(sum));
         }
     }
 
