@@ -2,8 +2,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ge.tsu.handwriting_recognition</groupId>
     <artifactId>handwriting_recognition</artifactId>
+    <groupId>ge.tsu.handwriting_recognition</groupId>
     <version>1.2</version>
     <packaging>pom</packaging>
 
@@ -20,20 +20,20 @@
     </contributors>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <profiles>
-        <profile>
-            <id>release</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>data-creator</module>
-                <module>neural-network</module>
-            </modules>
-        </profile>
+      <profile>
+        <id>release</id>
+        <activation>
+          <activeByDefault>true</activeByDefault>
+        </activation>
+        <modules>
+          <module>data_creator</module>
+          <module>neural_network</module>
+        </modules>
+      </profile>
     </profiles>
 
     <dependencies>
