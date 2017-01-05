@@ -20,20 +20,21 @@
     </contributors>
 
     <properties>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <profiles>
-      <profile>
-        <id>release</id>
-        <activation>
-          <activeByDefault>true</activeByDefault>
-        </activation>
-        <modules>
-          <module>data_creator</module>
-          <module>neural_network</module>
-        </modules>
-      </profile>
+        <profile>
+            <id>release</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>data_creator</module>
+                <module>neural_network</module>
+                <module>image_processing</module>
+            </modules>
+        </profile>
     </profiles>
 
     <dependencies>
