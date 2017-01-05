@@ -2,8 +2,16 @@ package ge.tsu.handwriting_recognition.data_creator.console.ui;
 
 import ge.tsu.handwriting_recognition.data_creator.console.resources.Messages;
 import ge.tsu.handwriting_recognition.data_creator.console.utils.ShowAlert;
+import ge.tsu.handwriting_recognition.data_creator.model.CharSequence;
+import ge.tsu.handwriting_recognition.data_creator.model.NormalizedData;
+import ge.tsu.handwriting_recognition.data_creator.neuralnetwork.INeuralNetwork;
+import ge.tsu.handwriting_recognition.data_creator.neuralnetwork.MyNeuralNetwork;
+import ge.tsu.handwriting_recognition.data_creator.service.NormalizedDataService;
+import ge.tsu.handwriting_recognition.data_creator.service.NormalizedDataServiceImpl;
 import ge.tsu.handwriting_recognition.data_creator.service.SystemParameterService;
 import ge.tsu.handwriting_recognition.data_creator.service.SystemParameterServiceImpl;
+import ge.tsu.handwriting_recognition.image_recognition.ImageCutter;
+import ge.tsu.handwriting_recognition.image_recognition.ImageTransformer;
 import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -24,6 +32,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
@@ -34,8 +43,24 @@ public class DataCreatorWithDraw extends Stage {
 
     private SystemParameterService systemParameterService = new SystemParameterServiceImpl();
 
+    private NormalizedDataService normalizedDataService = new NormalizedDataServiceImpl();
+
     private String createdImagesDirectory = systemParameterService.getSystemParameterValue("createdImagesDirectory",
             "D:\\sg\\handwriting_recognition\\images\\created_images");
+
+    private char firstSymbolInCharSequence = systemParameterService.getSystemParameterValue("firstSymbolInCharSequence", "ა").charAt(0);
+
+    private char lastSymbolInCharSequence = systemParameterService.getSystemParameterValue("lastSymbolInCharSequence", "ჰ").charAt(0);
+
+    private int createdImageDataDefaultWidth = Integer.parseInt(systemParameterService.getSystemParameterValue("createdImageDataDefaultWidth", "11"));
+
+    private int createdImageDataDefaultHeight = Integer.parseInt(systemParameterService.getSystemParameterValue("createdImageDataDefaultHeight", "11"));
+
+    private CharSequence charSequence = new CharSequence(firstSymbolInCharSequence, lastSymbolInCharSequence);
+
+    private INeuralNetwork neuralNetwork = new MyNeuralNetwork();
+
+    private final int CANVAS_BACKGROUND_COLOR = -1;
 
     private final int CANVAS_WIDTH = 400;
 
@@ -47,6 +72,12 @@ public class DataCreatorWithDraw extends Stage {
 
     private TextField answerField;
 
+    private TextField widthField;
+
+    private TextField heightField;
+
+    private TextField generationTextField;
+
     public DataCreatorWithDraw() {
         this.setTitle(Messages.get("dataCreatorWithDraw"));
         root = new BorderPane();
@@ -54,8 +85,8 @@ public class DataCreatorWithDraw extends Stage {
         initMainPane();
         initBottomPane();
         this.setScene(new Scene(root));
-        this.setWidth(750);
-        this.setHeight(550);
+        this.setWidth(740);
+        this.setHeight(570);
     }
 
     private void initTopPane() {
@@ -149,25 +180,42 @@ public class DataCreatorWithDraw extends Stage {
     }
 
     private void initBottomPane() {
-        HBox bottomPane = new HBox();
-        bottomPane.setAlignment(Pos.CENTER);
-        bottomPane.setPadding(new Insets(0, 0, 15, 0));
-        bottomPane.setSpacing(10);
+        FlowPane flowPane = new FlowPane();
+        flowPane.setAlignment(Pos.CENTER);
+        flowPane.setPadding(new Insets(0, 0, 15, 0));
+        flowPane.setHgap(10);
+        flowPane.setVgap(10);
         Label answerLabel = new Label(Messages.get("answer") + ":");
         answerLabel.setStyle("-fx-font-family: sylfaen");
         answerField = new TextField();
         answerField.setStyle("-fx-font-family: sylfaen");
+        answerField.setPrefWidth(130);
         Label generationLabel = new Label(Messages.get("generation") + ":");
         generationLabel.setStyle("-fx-font-family: sylfaen");
-        TextField generationTextField = new TextField();
+        generationTextField = new TextField();
         generationTextField.setStyle("-fx-font-family: sylfaen");
         generationTextField.setPrefWidth(130);
+        Label heightLabel = new Label(Messages.get("height") + ":");
+        heightLabel.setStyle("-fx-font-family: sylfaen");
+        heightField = new TextField();
+        heightField.setText(Integer.toString(createdImageDataDefaultHeight));
+        heightField.setPrefWidth(80);
+        Label widthLabel = new Label(Messages.get("width") + ":");
+        widthLabel.setStyle("-fx-font-family: sylfaen");
+        widthField = new TextField();
+        widthField.setText(Integer.toString(createdImageDataDefaultWidth));
+        widthField.setPrefWidth(80);
         Button saveButton = new Button(Messages.get("save"));
         saveButton.setStyle("-fx-font-family: sylfaen");
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                if (answerField.getText() == null || answerField.getText().length() != 1) {
+                    ShowAlert.showWarning(Messages.get("irrelevantAnswer"));
+                    return;
+                }
+                normalizedDataService.addNormalizedData(getNormalizedDataFromBoard());
+                answerField.setText("");
             }
         });
         Button guessButton = new Button(Messages.get("guess"));
@@ -175,7 +223,8 @@ public class DataCreatorWithDraw extends Stage {
         guessButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                char ans = neuralNetwork.guessCharacter(getNormalizedDataFromBoard());
+                ShowAlert.showSimpleAlert("" + ans);
             }
         });
         Button trainButton = new Button(Messages.get("train"));
@@ -183,15 +232,45 @@ public class DataCreatorWithDraw extends Stage {
         trainButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                int width = createdImageDataDefaultWidth, height = createdImageDataDefaultHeight;
+                try {
+                    width = Integer.parseInt(widthField.getText());
+                    height = Integer.parseInt(heightField.getText());
+                } catch (Exception ex) {
+                    ShowAlert.showWarning(Messages.get("pleaseFillAllField"));
+                }
+                if (generationTextField.getText() == null || generationTextField.getText().isEmpty()) {
+                    ShowAlert.showWarning(Messages.get("pleaseFillAllField"));
+                    return;
+                }
+                neuralNetwork.trainNeural(width, height, generationTextField.getText());
             }
         });
-        bottomPane.getChildren().addAll(answerLabel, answerField);
-        bottomPane.getChildren().addAll(generationLabel, generationTextField, saveButton, trainButton, guessButton);
-        root.setBottom(bottomPane);
+        flowPane.getChildren().addAll(answerLabel, answerField, generationLabel, generationTextField);
+        flowPane.getChildren().addAll(heightLabel, heightField, widthLabel, widthField);
+        flowPane.getChildren().addAll(saveButton, trainButton, guessButton);
+        root.setBottom(flowPane);
     }
 
     private void clearCanvas() {
         canvas.getGraphicsContext2D().clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    }
+
+    private NormalizedData getNormalizedDataFromBoard() {
+        int width = createdImageDataDefaultWidth, height = createdImageDataDefaultHeight;
+        try {
+            width = Integer.parseInt(widthField.getText());
+            height = Integer.parseInt(heightField.getText());
+        } catch (Exception ex) {
+            ShowAlert.showWarning(Messages.get("pleaseFillAllField"));
+        }
+        WritableImage writableImage = new WritableImage(CANVAS_WIDTH, CANVAS_HEIGHT);
+        canvas.snapshot(null, writableImage);
+        BufferedImage image = SwingFXUtils.fromFXImage(writableImage, null);
+        char ans = (answerField.getText() == null | answerField.getText().isEmpty()) ? ' ' : answerField.getText().charAt(0);
+        NormalizedData normalizedData = new NormalizedData(width, height, ImageTransformer.getFloatArrayFromImage(
+                ImageCutter.cutCornerUnusedParts(image, CANVAS_BACKGROUND_COLOR), width, height, CANVAS_BACKGROUND_COLOR),
+                ans, charSequence, generationTextField.getText());
+        return normalizedData;
     }
 }

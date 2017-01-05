@@ -21,6 +21,11 @@
             <artifactId>neural_network</artifactId>
             <version>1.2</version>
         </dependency>
+        <dependency>
+            <groupId>ge.tsu.handwriting_recognition</groupId>
+            <artifactId>image_processing</artifactId>
+            <version>1.2</version>
+        </dependency>
     </dependencies>
 
     <build>
