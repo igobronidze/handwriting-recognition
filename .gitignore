@@ -8,3 +8,5 @@ data
 data/*
 target
 target/*
+network
+network/*
