@@ -10,3 +10,5 @@ target
 target/*
 network
 network/*
+images
+images/*
