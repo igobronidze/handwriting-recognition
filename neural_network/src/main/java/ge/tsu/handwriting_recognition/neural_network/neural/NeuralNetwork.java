@@ -101,7 +101,20 @@ public class NeuralNetwork implements Serializable {
                 Backpropagation.backpropagation(this, trainingData);
             }
             counter++;
+            if (counter % 500 == 0) {
+                System.out.println(counter);
+                System.out.println(error);
+            }
         } while (counter < neuralNetworkParameter.getTrainingMaxIteration() && error > neuralNetworkParameter.getMinError());
+    }
+
+    public float test(List<TrainingData> trainingDataList) {
+        float error = 0.0f;
+        for (TrainingData trainingData : trainingDataList) {
+            Activation.activate(this, trainingData);
+            error += Activation.squaredError(this, trainingData);
+        }
+        return error;
     }
 
     public List<Float> getOutputActivation(TrainingData trainingData) {

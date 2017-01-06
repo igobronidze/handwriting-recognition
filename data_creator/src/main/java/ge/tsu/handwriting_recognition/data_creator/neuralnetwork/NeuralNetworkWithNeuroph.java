@@ -7,6 +7,7 @@ import ge.tsu.handwriting_recognition.data_creator.service.NormalizedDataService
 import ge.tsu.handwriting_recognition.data_creator.service.NormalizedDataServiceImpl;
 import ge.tsu.handwriting_recognition.data_creator.service.SystemParameterService;
 import ge.tsu.handwriting_recognition.data_creator.service.SystemParameterServiceImpl;
+import org.apache.commons.lang3.NotImplementedException;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
@@ -31,6 +32,7 @@ public class NeuralNetworkWithNeuroph implements INeuralNetwork {
 
     private String neuralNetworkPath = systemParameterService.getSystemParameterValue("neuralNetworkPath", "D:\\sg\\handwriting_recognition\\network\\network.nnet");
 
+    @Override
     public void trainNeural(int width, int height, String generation) {
         List<NormalizedData> normalizedDataList = normalizedDataService.getNormalizedDatas(width, height, charSequence, generation);
         List<Integer> layers = new ArrayList<>();
@@ -59,6 +61,7 @@ public class NeuralNetworkWithNeuroph implements INeuralNetwork {
         perceptron.save(neuralNetworkPath);
     }
 
+    @Override
     public Character guessCharacter(NormalizedData normalizedData) {
         NeuralNetwork neuralNetwork = NeuralNetwork.createFromFile(neuralNetworkPath);
         DataSetRow dataSetRow = normalizedDataService.getDataSetRow(normalizedData);
@@ -72,5 +75,10 @@ public class NeuralNetworkWithNeuroph implements INeuralNetwork {
             }
         }
         return (char)(ans + charSequence.getFirstCharASCI());
+    }
+
+    @Override
+    public float test(int width, int height, String generation) {
+        throw new NotImplementedException("Not yet :D");
     }
 }

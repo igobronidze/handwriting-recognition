@@ -78,6 +78,8 @@ public class DataCreatorWithDraw extends Stage {
 
     private TextField generationTextField;
 
+    private ComboBox directoriesComboBox;
+
     public DataCreatorWithDraw() {
         this.setTitle(Messages.get("dataCreatorWithDraw"));
         root = new BorderPane();
@@ -95,13 +97,13 @@ public class DataCreatorWithDraw extends Stage {
         hBox.setAlignment(Pos.CENTER);
         hBox.setPadding(new Insets(15, 0, 0, 0));
 
-        ComboBox comboBox = new ComboBox();
-        comboBox.setStyle("-fx-font-family: sylfaen");
-        comboBox.setItems(FXCollections.observableArrayList(getInnerDirectories()));
-        if (comboBox.getItems().size() != 0) {
-            comboBox.setValue(comboBox.getItems().get(0));
+        directoriesComboBox = new ComboBox();
+        directoriesComboBox.setStyle("-fx-font-family: sylfaen");
+        directoriesComboBox.setItems(FXCollections.observableArrayList(getInnerDirectories()));
+        if (directoriesComboBox.getItems().size() != 0) {
+            directoriesComboBox.setValue(directoriesComboBox.getItems().get(0));
         }
-        comboBox.setPrefWidth(150);
+        directoriesComboBox.setPrefWidth(150);
         Button button = new Button(Messages.get("saveInDirectory"));
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -114,8 +116,9 @@ public class DataCreatorWithDraw extends Stage {
                     WritableImage writableImage = new WritableImage(CANVAS_WIDTH, CANVAS_HEIGHT);
                     canvas.snapshot(null, writableImage);
                     RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
-                    File file = new File(createdImagesDirectory + "\\" + comboBox.getValue() + "\\" + answerField.getText() + "_" + canvas.hashCode() + ".png");
+                    File file = new File(createdImagesDirectory + "\\" + directoriesComboBox.getValue() + "\\" + answerField.getText() + "_" + renderedImage.hashCode() + ".png");
                     ImageIO.write(renderedImage, "png", file);
+                    clearCanvas();
                     answerField.setText("");
                 } catch (IOException ex) {
                     System.out.println(ex.getMessage());
@@ -124,7 +127,7 @@ public class DataCreatorWithDraw extends Stage {
         });
         button.setStyle("-fx-font-family: sylfaen");
 
-        hBox.getChildren().addAll(comboBox, button);
+        hBox.getChildren().addAll(directoriesComboBox, button);
         root.setTop(hBox);
     }
 
@@ -205,6 +208,20 @@ public class DataCreatorWithDraw extends Stage {
         widthField = new TextField();
         widthField.setText(Integer.toString(createdImageDataDefaultWidth));
         widthField.setPrefWidth(80);
+        Button saveFromDirectoryButton = new Button(Messages.get("saveFromDirectory"));
+        saveFromDirectoryButton.setStyle("-fx-font-family: sylfaen");
+        saveFromDirectoryButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (generationTextField.getText() == null || generationTextField.getText().isEmpty()) {
+                    ShowAlert.showWarning(Messages.get("pleaseFillAllField"));
+                    return;
+                }
+                for (NormalizedData normalizedData : getNormalizedDataFromDirectory(createdImagesDirectory + "\\" + directoriesComboBox.getValue())) {
+                    normalizedDataService.addNormalizedData(normalizedData);
+                }
+            }
+        });
         Button saveButton = new Button(Messages.get("save"));
         saveButton.setStyle("-fx-font-family: sylfaen");
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -214,8 +231,13 @@ public class DataCreatorWithDraw extends Stage {
                     ShowAlert.showWarning(Messages.get("irrelevantAnswer"));
                     return;
                 }
+                if (generationTextField.getText() == null || generationTextField.getText().isEmpty()) {
+                    ShowAlert.showWarning(Messages.get("pleaseFillAllField"));
+                    return;
+                }
                 normalizedDataService.addNormalizedData(getNormalizedDataFromBoard());
                 answerField.setText("");
+                clearCanvas();
             }
         });
         Button guessButton = new Button(Messages.get("guess"));
@@ -248,7 +270,7 @@ public class DataCreatorWithDraw extends Stage {
         });
         flowPane.getChildren().addAll(answerLabel, answerField, generationLabel, generationTextField);
         flowPane.getChildren().addAll(heightLabel, heightField, widthLabel, widthField);
-        flowPane.getChildren().addAll(saveButton, trainButton, guessButton);
+        flowPane.getChildren().addAll(saveFromDirectoryButton, saveButton, trainButton, guessButton);
         root.setBottom(flowPane);
     }
 
@@ -272,5 +294,32 @@ public class DataCreatorWithDraw extends Stage {
                 ImageCutter.cutCornerUnusedParts(image, CANVAS_BACKGROUND_COLOR), width, height, CANVAS_BACKGROUND_COLOR),
                 ans, charSequence, generationTextField.getText());
         return normalizedData;
+    }
+
+    private List<NormalizedData> getNormalizedDataFromDirectory(String path) {
+        List<NormalizedData> normalizedDataList = new ArrayList<>();
+        int width = createdImageDataDefaultWidth, height = createdImageDataDefaultHeight;
+        try {
+            width = Integer.parseInt(widthField.getText());
+            height = Integer.parseInt(heightField.getText());
+        } catch (Exception ex) {
+            ShowAlert.showWarning(Messages.get("pleaseFillAllField"));
+            return new ArrayList<>();
+        }
+        File folder = new File(path);
+        for (File file : folder.listFiles()) {
+            if (file.isFile()) {
+                try {
+                    BufferedImage image = ImageIO.read(file);
+                    NormalizedData normalizedData = new NormalizedData(width, height, ImageTransformer.getFloatArrayFromImage(
+                            ImageCutter.cutCornerUnusedParts(image, CANVAS_BACKGROUND_COLOR), width, height, CANVAS_BACKGROUND_COLOR),
+                            file.getName().charAt(0), charSequence, generationTextField.getText());
+                    normalizedDataList.add(normalizedData);
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+        }
+        return normalizedDataList;
     }
 }
