@@ -2,6 +2,8 @@ package ge.tsu.handwriting_recognition.data_creator;
 
 import ge.tsu.handwriting_recognition.data_creator.model.CharSequence;
 import ge.tsu.handwriting_recognition.data_creator.model.NormalizedData;
+import ge.tsu.handwriting_recognition.data_creator.neuralnetwork.INeuralNetwork;
+import ge.tsu.handwriting_recognition.data_creator.neuralnetwork.MyNeuralNetwork;
 import ge.tsu.handwriting_recognition.data_creator.service.dao.NormalizedDataDAO;
 import ge.tsu.handwriting_recognition.data_creator.service.dao.NormalizedDataDAOImpl;
 import org.junit.Before;
@@ -28,8 +30,10 @@ public class NormalizedDataTest {
     @Test
     @Ignore
     public void testAddNormalizedData() {
-        normalizedDataDAO.addNormalizedData(normalizedData);
-        System.out.println(normalizedDataDAO.getNormalizedDatas(4, 2, new CharSequence('A', 'Z'), "testGeneration"));
+//        normalizedDataDAO.addNormalizedData(normalizedData);
+//        System.out.println(normalizedDataDAO.getNormalizedDatas(4, 2, new CharSequence('A', 'Z'), "testGeneration"));
+        INeuralNetwork neuralNetwork = new MyNeuralNetwork();
+        System.out.println(neuralNetwork.test(21, 31, "test_geo"));
     }
 
 }

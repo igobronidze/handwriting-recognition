@@ -7,4 +7,6 @@ public interface INeuralNetwork {
     void trainNeural(int width, int height, String generation);
 
     Character guessCharacter(NormalizedData normalizedData);
+
+    float test(int width, int height, String generation);
 }

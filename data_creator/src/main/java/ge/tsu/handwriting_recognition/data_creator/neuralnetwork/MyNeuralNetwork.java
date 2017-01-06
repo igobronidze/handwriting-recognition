@@ -76,6 +76,22 @@ public class MyNeuralNetwork implements INeuralNetwork {
         return null;
     }
 
+    @Override
+    public float test(int width, int height, String generation) {
+        List<NormalizedData> normalizedDataList = normalizedDataService.getNormalizedDatas(width, height, charSequence, generation);
+        try {
+            NeuralNetwork neuralNetwork = NeuralNetwork.load(neuralNetworkPath);
+            List<TrainingData> trainingDataList = new ArrayList<>();
+            for (NormalizedData normalizedData : normalizedDataList) {
+                trainingDataList.add(normalizedDataService.getTrainingData(normalizedData));
+            }
+            return neuralNetwork.test(trainingDataList);
+        } catch (Exception ex) {
+            System.out.println("Neural network don's exist");
+        }
+        return -1;
+    }
+
     private void setNeuralNetworkParameters(NeuralNetwork neuralNetwork) {
         NeuralNetworkParameter parameter = neuralNetwork.getNeuralNetworkParameter();
         parameter.setWeightMinValue(Float.parseFloat(systemParameterService.getSystemParameterValue("weightMinValue", "-0.5")));
