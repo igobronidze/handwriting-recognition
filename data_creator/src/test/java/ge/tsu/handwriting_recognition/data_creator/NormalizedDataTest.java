@@ -32,8 +32,8 @@ public class NormalizedDataTest {
     public void testAddNormalizedData() {
 //        normalizedDataDAO.addNormalizedData(normalizedData);
 //        System.out.println(normalizedDataDAO.getNormalizedDatas(4, 2, new CharSequence('A', 'Z'), "testGeneration"));
-        INeuralNetwork neuralNetwork = new MyNeuralNetwork();
-        System.out.println(neuralNetwork.test(21, 31, "test_geo"));
+//        INeuralNetwork neuralNetwork = new MyNeuralNetwork();
+//        System.out.println(neuralNetwork.test(21, 31, "test_geo", ""));
     }
 
 }

@@ -8,5 +8,5 @@ public interface INeuralNetwork {
 
     Character guessCharacter(NormalizedData normalizedData);
 
-    float test(int width, int height, String generation);
+    float test(int width, int height, String generation, String path, int networkId);
 }

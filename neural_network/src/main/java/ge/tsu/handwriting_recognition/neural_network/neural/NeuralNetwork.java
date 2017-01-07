@@ -5,6 +5,7 @@ import ge.tsu.handwriting_recognition.neural_network.util.Randomizer;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class NeuralNetwork implements Serializable {
@@ -37,6 +38,14 @@ public class NeuralNetwork implements Serializable {
 
     public List<Neuron> getOutputNeurons() {
         return outputNeurons;
+    }
+
+    public List<TrainingData> getTrainingDataList() {
+        return trainingDataList;
+    }
+
+    public List<Integer> getLayersSize() {
+        return layersSize;
     }
 
     public NeuralNetwork(List<Integer> layersSize) throws NeuralNetworkException {
@@ -87,9 +96,10 @@ public class NeuralNetwork implements Serializable {
         this.trainingDataList.add(trainingData);
     }
 
-    public void train() {
+    public long train() {
         int counter = 0;
         float error;
+        long startTime = new Date().getTime();
         do {
             error = 0.0f;
             List<Integer> randomList = Randomizer.getRandomList(trainingDataList.size());
@@ -106,6 +116,7 @@ public class NeuralNetwork implements Serializable {
                 System.out.println(error);
             }
         } while (counter < neuralNetworkParameter.getTrainingMaxIteration() && error > neuralNetworkParameter.getMinError());
+        return new Date().getTime() - startTime;
     }
 
     public float test(List<TrainingData> trainingDataList) {

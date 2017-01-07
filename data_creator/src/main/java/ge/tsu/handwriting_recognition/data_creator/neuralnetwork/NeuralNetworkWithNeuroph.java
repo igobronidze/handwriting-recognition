@@ -78,7 +78,7 @@ public class NeuralNetworkWithNeuroph implements INeuralNetwork {
     }
 
     @Override
-    public float test(int width, int height, String generation) {
+    public float test(int width, int height, String generation, String path, int networkId) {
         throw new NotImplementedException("Not yet :D");
     }
 }
