@@ -6,6 +6,8 @@ import java.util.List;
 
 public class TrainingData implements Serializable {
 
+    public static final long serialVersionUID = 34684386358L;
+
     private List<Float> input = new ArrayList<>();
 
     private List<Float> output = new ArrayList<>();

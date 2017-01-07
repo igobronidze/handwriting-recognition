@@ -47,6 +47,7 @@ public class ControlPanel extends Application {
         addButton(new DataCreatorWithGrid(), Messages.get("dataCreatorWithGrid"));
         addButton(new SystemParameterWindow(), Messages.get("systemParameter"));
         addButton(new DataCreatorWithDraw(), Messages.get("dataCreatorWithDraw"));
+        addButton(new NeuralNetworkControlWindow(), Messages.get("neuralNetworkControl"));
         root.getChildren().addAll(flowPane);
     }
 

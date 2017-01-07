@@ -3,7 +3,7 @@
     <parent>
         <artifactId>handwriting_recognition</artifactId>
         <groupId>ge.tsu.handwriting_recognition</groupId>
-        <version>1.2</version>
+        <version>1.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -19,12 +19,12 @@
         <dependency>
             <groupId>ge.tsu.handwriting_recognition</groupId>
             <artifactId>neural_network</artifactId>
-            <version>1.2</version>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>ge.tsu.handwriting_recognition</groupId>
             <artifactId>image_processing</artifactId>
-            <version>1.2</version>
+            <version>1.0.1</version>
         </dependency>
     </dependencies>
 

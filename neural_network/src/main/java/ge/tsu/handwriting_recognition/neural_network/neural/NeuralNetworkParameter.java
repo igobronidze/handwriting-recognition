@@ -8,6 +8,8 @@ import java.io.Serializable;
 
 public class NeuralNetworkParameter implements Serializable {
 
+    public static final long serialVersionUID = 854854845876L;
+
     private float weightMinValue = -0.5f;
 
     private float weightMaxValue = 0.5f;
@@ -17,6 +19,8 @@ public class NeuralNetworkParameter implements Serializable {
     private float biasMaxValue = 0.5f;
 
     private TransferFunction transferFunction = new SigmoidFunction();
+
+    private TransferFunctionType transferFunctionType = TransferFunctionType.SIGMOID;
 
     private float learningRate = 0.2f;
 
@@ -94,8 +98,13 @@ public class NeuralNetworkParameter implements Serializable {
         this.numberOfTrainingDataInOneIteration = numberOfTrainingDataInOneIteration;
     }
 
-    public void setTransferFunction(TransferFunctionType type) {
-        switch (type) {
+    public TransferFunctionType getTransferFunctionType() {
+        return transferFunctionType;
+    }
+
+    public void setTransferFunctionType(TransferFunctionType transferFunctionType) {
+        transferFunctionType = transferFunctionType;
+        switch (transferFunctionType) {
             case SIGMOID:
                 transferFunction = new SigmoidFunction();
         }

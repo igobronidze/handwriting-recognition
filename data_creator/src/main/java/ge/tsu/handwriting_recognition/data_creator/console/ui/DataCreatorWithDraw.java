@@ -52,9 +52,9 @@ public class DataCreatorWithDraw extends Stage {
 
     private char lastSymbolInCharSequence = systemParameterService.getSystemParameterValue("lastSymbolInCharSequence", "ჰ").charAt(0);
 
-    private int createdImageDataDefaultWidth = Integer.parseInt(systemParameterService.getSystemParameterValue("createdImageDataDefaultWidth", "11"));
+    private int normalizedDataDefaultWidth = Integer.parseInt(systemParameterService.getSystemParameterValue("normalizedDataDefaultWidth", "21"));
 
-    private int createdImageDataDefaultHeight = Integer.parseInt(systemParameterService.getSystemParameterValue("createdImageDataDefaultHeight", "11"));
+    private int normalizedDataDefaultHeight = Integer.parseInt(systemParameterService.getSystemParameterValue("normalizedDataDefaultHeight", "31"));
 
     private CharSequence charSequence = new CharSequence(firstSymbolInCharSequence, lastSymbolInCharSequence);
 
@@ -201,12 +201,12 @@ public class DataCreatorWithDraw extends Stage {
         Label heightLabel = new Label(Messages.get("height") + ":");
         heightLabel.setStyle("-fx-font-family: sylfaen");
         heightField = new TextField();
-        heightField.setText(Integer.toString(createdImageDataDefaultHeight));
+        heightField.setText(Integer.toString(normalizedDataDefaultHeight));
         heightField.setPrefWidth(80);
         Label widthLabel = new Label(Messages.get("width") + ":");
         widthLabel.setStyle("-fx-font-family: sylfaen");
         widthField = new TextField();
-        widthField.setText(Integer.toString(createdImageDataDefaultWidth));
+        widthField.setText(Integer.toString(normalizedDataDefaultWidth));
         widthField.setPrefWidth(80);
         Button saveFromDirectoryButton = new Button(Messages.get("saveFromDirectory"));
         saveFromDirectoryButton.setStyle("-fx-font-family: sylfaen");
@@ -249,28 +249,9 @@ public class DataCreatorWithDraw extends Stage {
                 ShowAlert.showSimpleAlert("" + ans);
             }
         });
-        Button trainButton = new Button(Messages.get("train"));
-        trainButton.setStyle("-fx-font-family: sylfaen");
-        trainButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                int width = createdImageDataDefaultWidth, height = createdImageDataDefaultHeight;
-                try {
-                    width = Integer.parseInt(widthField.getText());
-                    height = Integer.parseInt(heightField.getText());
-                } catch (Exception ex) {
-                    ShowAlert.showWarning(Messages.get("pleaseFillAllField"));
-                }
-                if (generationTextField.getText() == null || generationTextField.getText().isEmpty()) {
-                    ShowAlert.showWarning(Messages.get("pleaseFillAllField"));
-                    return;
-                }
-                neuralNetwork.trainNeural(width, height, generationTextField.getText());
-            }
-        });
         flowPane.getChildren().addAll(answerLabel, answerField, generationLabel, generationTextField);
         flowPane.getChildren().addAll(heightLabel, heightField, widthLabel, widthField);
-        flowPane.getChildren().addAll(saveFromDirectoryButton, saveButton, trainButton, guessButton);
+        flowPane.getChildren().addAll(saveFromDirectoryButton, saveButton, guessButton);
         root.setBottom(flowPane);
     }
 
@@ -279,7 +260,7 @@ public class DataCreatorWithDraw extends Stage {
     }
 
     private NormalizedData getNormalizedDataFromBoard() {
-        int width = createdImageDataDefaultWidth, height = createdImageDataDefaultHeight;
+        int width = normalizedDataDefaultWidth, height = normalizedDataDefaultHeight;
         try {
             width = Integer.parseInt(widthField.getText());
             height = Integer.parseInt(heightField.getText());
@@ -298,7 +279,7 @@ public class DataCreatorWithDraw extends Stage {
 
     private List<NormalizedData> getNormalizedDataFromDirectory(String path) {
         List<NormalizedData> normalizedDataList = new ArrayList<>();
-        int width = createdImageDataDefaultWidth, height = createdImageDataDefaultHeight;
+        int width = normalizedDataDefaultWidth, height = normalizedDataDefaultHeight;
         try {
             width = Integer.parseInt(widthField.getText());
             height = Integer.parseInt(heightField.getText());
