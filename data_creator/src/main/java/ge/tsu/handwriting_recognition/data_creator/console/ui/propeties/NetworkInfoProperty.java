@@ -1,5 +1,6 @@
 package ge.tsu.handwriting_recognition.data_creator.console.ui.propeties;
 
+import ge.tsu.handwriting_recognition.data_creator.console.utils.DateUtils;
 import ge.tsu.handwriting_recognition.data_creator.model.NetworkInfo;
 import ge.tsu.handwriting_recognition.data_creator.model.TestingInfo;
 import javafx.beans.property.SimpleFloatProperty;
@@ -21,7 +22,7 @@ public class NetworkInfoProperty {
 
     private SimpleIntegerProperty numberOfData;
 
-    private SimpleLongProperty trainingDuration;
+    private SimpleStringProperty trainingDuration;
 
     private SimpleFloatProperty weightMinValue;
 
@@ -53,7 +54,7 @@ public class NetworkInfoProperty {
         this.height = new SimpleIntegerProperty(networkInfo.getHeight());
         this.generation = new SimpleStringProperty(networkInfo.getGeneration());
         this.numberOfData = new SimpleIntegerProperty(networkInfo.getNumberOfData());
-        this.trainingDuration = new SimpleLongProperty(networkInfo.getTrainingDuration());
+        this.trainingDuration = new SimpleStringProperty(DateUtils.getFullDateFromSecond(networkInfo.getTrainingDuration() / 100));
         this.weightMinValue = new SimpleFloatProperty(networkInfo.getWeightMinValue());
         this.weightMaxValue = new SimpleFloatProperty(networkInfo.getWeightMaxValue());
         this.biasMinValue = new SimpleFloatProperty(networkInfo.getBiasMinValue());
@@ -139,15 +140,15 @@ public class NetworkInfoProperty {
         this.numberOfData.set(numberOfData);
     }
 
-    public long getTrainingDuration() {
+    public String getTrainingDuration() {
         return trainingDuration.get();
     }
 
-    public SimpleLongProperty trainingDurationProperty() {
+    public SimpleStringProperty trainingDurationProperty() {
         return trainingDuration;
     }
 
-    public void setTrainingDuration(long trainingDuration) {
+    public void setTrainingDuration(String trainingDuration) {
         this.trainingDuration.set(trainingDuration);
     }
 
@@ -269,5 +270,29 @@ public class NetworkInfoProperty {
 
     public void setBestError(float bestError) {
         this.bestError.set(bestError);
+    }
+
+    public String getCharSequence() {
+        return charSequence.get();
+    }
+
+    public SimpleStringProperty charSequenceProperty() {
+        return charSequence;
+    }
+
+    public void setCharSequence(String charSequence) {
+        this.charSequence.set(charSequence);
+    }
+
+    public String getHiddenLayer() {
+        return hiddenLayer.get();
+    }
+
+    public SimpleStringProperty hiddenLayerProperty() {
+        return hiddenLayer;
+    }
+
+    public void setHiddenLayer(String hiddenLayer) {
+        this.hiddenLayer.set(hiddenLayer);
     }
 }
