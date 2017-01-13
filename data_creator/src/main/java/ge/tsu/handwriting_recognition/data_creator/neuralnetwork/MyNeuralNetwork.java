@@ -57,9 +57,9 @@ public class MyNeuralNetwork implements INeuralNetwork {
     }
 
     @Override
-    public Character guessCharacter(NormalizedData normalizedData) {
+    public Character guessCharacter(NormalizedData normalizedData, String networkPath) {
         try {
-            NeuralNetwork neuralNetwork = NeuralNetwork.load(neuralNetworkDirectory);
+            NeuralNetwork neuralNetwork = NeuralNetwork.load(networkPath);
             TrainingData trainingData = normalizedDataService.getTrainingData(normalizedData);
             List<Float> output = neuralNetwork.getOutputActivation(trainingData);
             int ans = 0;

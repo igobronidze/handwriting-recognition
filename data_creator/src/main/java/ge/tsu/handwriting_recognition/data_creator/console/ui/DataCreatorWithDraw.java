@@ -58,6 +58,8 @@ public class DataCreatorWithDraw extends Stage {
 
     private CharSequence charSequence = new CharSequence(firstSymbolInCharSequence, lastSymbolInCharSequence);
 
+    private String neuralNetworkDirectory = systemParameterService.getSystemParameterValue("neuralNetworkDirectory", "D:\\sg\\handwriting_recognition\\network");
+
     private INeuralNetwork neuralNetwork = new MyNeuralNetwork();
 
     private final int CANVAS_BACKGROUND_COLOR = -1;
@@ -79,6 +81,10 @@ public class DataCreatorWithDraw extends Stage {
     private TextField generationTextField;
 
     private ComboBox directoriesComboBox;
+
+    private ComboBox networkComboBox;
+
+    private Button guessButton;
 
     public DataCreatorWithDraw() {
         this.setTitle(Messages.get("dataCreatorWithDraw"));
@@ -240,18 +246,22 @@ public class DataCreatorWithDraw extends Stage {
                 clearCanvas();
             }
         });
-        Button guessButton = new Button(Messages.get("guess"));
+        guessButton = new Button(Messages.get("guess"));
         guessButton.setStyle("-fx-font-family: sylfaen");
+        networkComboBox = new ComboBox();
+        networkComboBox.setPrefWidth(170);
+        networkComboBox.setStyle("-fx-font-family: sylfaen");
+        reloadNetworkComboBox();
         guessButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                char ans = neuralNetwork.guessCharacter(getNormalizedDataFromBoard());
+                char ans = neuralNetwork.guessCharacter(getNormalizedDataFromBoard(), neuralNetworkDirectory + "\\" + networkComboBox.getValue());
                 ShowAlert.showSimpleAlert("" + ans);
             }
         });
         flowPane.getChildren().addAll(answerLabel, answerField, generationLabel, generationTextField);
         flowPane.getChildren().addAll(heightLabel, heightField, widthLabel, widthField);
-        flowPane.getChildren().addAll(saveFromDirectoryButton, saveButton, guessButton);
+        flowPane.getChildren().addAll(saveFromDirectoryButton, saveButton, networkComboBox, guessButton);
         root.setBottom(flowPane);
     }
 
@@ -302,5 +312,24 @@ public class DataCreatorWithDraw extends Stage {
             }
         }
         return normalizedDataList;
+    }
+
+    private List<String> getNetworkNames() {
+        List<String> networks = new ArrayList<>();
+        File folder = new File(neuralNetworkDirectory);
+        for (File file : folder.listFiles()) {
+            networks.add(file.getName());
+        }
+        return networks;
+    }
+
+    private void reloadNetworkComboBox() {
+        networkComboBox.setItems(FXCollections.observableArrayList(getNetworkNames()));
+        if (networkComboBox.getItems().size() != 0) {
+            networkComboBox.setValue(networkComboBox.getItems().get(0));
+            guessButton.setDisable(false);
+        } else {
+            guessButton.setDisable(true);
+        }
     }
 }

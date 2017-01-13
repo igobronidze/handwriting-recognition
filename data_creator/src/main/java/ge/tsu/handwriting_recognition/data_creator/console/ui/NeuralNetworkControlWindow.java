@@ -1,24 +1,25 @@
 package ge.tsu.handwriting_recognition.data_creator.console.ui;
 
 import ge.tsu.handwriting_recognition.data_creator.console.resources.Messages;
+import ge.tsu.handwriting_recognition.data_creator.console.ui.propeties.NetworkInfoProperty;
 import ge.tsu.handwriting_recognition.data_creator.console.utils.ShowAlert;
 import ge.tsu.handwriting_recognition.data_creator.console.utils.StageUtils;
+import ge.tsu.handwriting_recognition.data_creator.model.NetworkInfo;
 import ge.tsu.handwriting_recognition.data_creator.neuralnetwork.INeuralNetwork;
 import ge.tsu.handwriting_recognition.data_creator.neuralnetwork.MyNeuralNetwork;
+import ge.tsu.handwriting_recognition.data_creator.service.NetworkInfoService;
+import ge.tsu.handwriting_recognition.data_creator.service.NetworkInfoServiceImpl;
 import ge.tsu.handwriting_recognition.data_creator.service.SystemParameterService;
 import ge.tsu.handwriting_recognition.data_creator.service.SystemParameterServiceImpl;
-import ge.tsu.handwriting_recognition.neural_network.exception.NeuralNetworkException;
-import ge.tsu.handwriting_recognition.neural_network.neural.NeuralNetwork;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -33,6 +34,8 @@ public class NeuralNetworkControlWindow extends Stage {
 
     private SystemParameterService systemParameterService = new SystemParameterServiceImpl();
 
+    private NetworkInfoService networkInfoService = new NetworkInfoServiceImpl();
+
     private int normalizedDataDefaultWidth = Integer.parseInt(systemParameterService.getSystemParameterValue("normalizedDataDefaultWidth", "21"));
 
     private int normalizedDataDefaultHeight = Integer.parseInt(systemParameterService.getSystemParameterValue("normalizedDataDefaultHeight", "31"));
@@ -45,12 +48,14 @@ public class NeuralNetworkControlWindow extends Stage {
 
     private ComboBox networkComboBox;
 
+    private TableView<NetworkInfoProperty> table;
+
     public NeuralNetworkControlWindow() {
         this.setTitle(Messages.get("neuralNetworkControl"));
         root = new VBox();
         initTrainPane();
         initTestPane();
-        initGrid();
+        initMainPane();
         this.setScene(new Scene(root));
         StageUtils.setMaxSize(this);
     }
@@ -78,7 +83,7 @@ public class NeuralNetworkControlWindow extends Stage {
         networkComboBox = new ComboBox();
         networkComboBox.setPrefWidth(170);
         networkComboBox.setStyle("-fx-font-family: sylfaen");
-        realoadNetworkComboBox();
+        reloadNetworkComboBox();
         testButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -140,7 +145,7 @@ public class NeuralNetworkControlWindow extends Stage {
                     return;
                 }
                 neuralNetwork.trainNeural(width, height, generationTextField.getText());
-                NeuralNetworkControlWindow.this.realoadNetworkComboBox();
+                NeuralNetworkControlWindow.this.reloadNetworkComboBox();
             }
         });
         HBox hBox = new HBox(10);
@@ -150,8 +155,74 @@ public class NeuralNetworkControlWindow extends Stage {
         root.getChildren().add(hBox);
     }
 
-    private void initGrid() {
+    @SuppressWarnings("unchecked")
+    private void initMainPane() {
+        VBox vBox = new VBox();
+        vBox.setPadding(new Insets(10, 10, 10, 10));
+        table = new TableView<>();
+        table.setStyle("-fx-font-family: sylfaen;");
+        TableColumn idColumn = new TableColumn(Messages.get("id"));
+        idColumn.setPrefWidth(25);
+        idColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("id"));
+        TableColumn widthColumn = new TableColumn(Messages.get("width"));
+        widthColumn.setPrefWidth(45);
+        widthColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("width"));
+        TableColumn heightColumn = new TableColumn(Messages.get("height"));
+        heightColumn.setPrefWidth(55);
+        heightColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("height"));
+        TableColumn generationColumn = new TableColumn(Messages.get("generation"));
+        generationColumn.setPrefWidth(60);
+        generationColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("generation"));
+        TableColumn numberOfDataColumn = new TableColumn(Messages.get("numberOfData"));
+        numberOfDataColumn.setPrefWidth(70);
+        numberOfDataColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("numberOfData"));
+        TableColumn trainingDurationColumn = new TableColumn(Messages.get("trainingDuration"));
+        trainingDurationColumn.setPrefWidth(80);
+        trainingDurationColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("trainingDuration"));
+        TableColumn weightMinValueColumn = new TableColumn(Messages.get("weightMinValue"));
+        weightMinValueColumn.setPrefWidth(60);
+        weightMinValueColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("weightMinValue"));
+        TableColumn weightMaxValueColumn = new TableColumn(Messages.get("weightMaxValue"));
+        weightMaxValueColumn.setPrefWidth(60);
+        weightMaxValueColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("weightMaxValue"));
+        TableColumn biasMinValueColumn = new TableColumn(Messages.get("biasMinValue"));
+        biasMinValueColumn.setPrefWidth(60);
+        biasMinValueColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("biasMinValue"));
+        TableColumn biasMaxValueColumn = new TableColumn(Messages.get("biasMaxValue"));
+        biasMaxValueColumn.setPrefWidth(60);
+        biasMaxValueColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("biasMaxValue"));
+        TableColumn transferFunctionTypeColumn = new TableColumn(Messages.get("transferFunctionType"));
+        transferFunctionTypeColumn.setPrefWidth(80);
+        transferFunctionTypeColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("transferFunctionType"));
+        TableColumn learningRateColumn = new TableColumn(Messages.get("learningRate"));
+        learningRateColumn.setPrefWidth(75);
+        learningRateColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("learningRate"));
+        TableColumn minErrorColumn = new TableColumn(Messages.get("minError"));
+        minErrorColumn.setPrefWidth(70);
+        minErrorColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("minError"));
+        TableColumn trainingMaxIterationColumn = new TableColumn(Messages.get("trainingMaxIteration"));
+        trainingMaxIterationColumn.setPrefWidth(70);
+        trainingMaxIterationColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("trainingMaxIteration"));
+        TableColumn numberOfTrainingDataInOneIterationColumn = new TableColumn(Messages.get("numberOfTrainingDataInOneIteration"));
+        numberOfTrainingDataInOneIterationColumn.setPrefWidth(77);
+        numberOfTrainingDataInOneIterationColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("numberOfTrainingDataInOneIteration"));
+        TableColumn bestErrorColumn = new TableColumn(Messages.get("bestError"));
+        bestErrorColumn.setPrefWidth(75);
+        bestErrorColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("bestError"));
+        TableColumn charSequenceColumn = new TableColumn(Messages.get("charSequence"));
+        charSequenceColumn.setPrefWidth(60);
+        charSequenceColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("charSequence"));
+        TableColumn hiddenLayerColumn = new TableColumn(Messages.get("hiddenLayer"));
+        hiddenLayerColumn.setPrefWidth(100);
+        hiddenLayerColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("hiddenLayer"));
 
+        table.getColumns().addAll(idColumn, widthColumn, heightColumn, generationColumn, numberOfDataColumn, trainingDurationColumn, weightMinValueColumn,
+                weightMaxValueColumn, biasMinValueColumn, biasMaxValueColumn, transferFunctionTypeColumn, learningRateColumn, minErrorColumn,
+                trainingMaxIterationColumn, numberOfTrainingDataInOneIterationColumn, bestErrorColumn, charSequenceColumn, hiddenLayerColumn);
+        loadNetworkInfoData();
+
+        vBox.getChildren().add(table);
+        root.getChildren().add(vBox);
     }
 
     private List<String> getNetworkNames() {
@@ -163,7 +234,7 @@ public class NeuralNetworkControlWindow extends Stage {
         return networks;
     }
 
-    private void realoadNetworkComboBox() {
+    private void reloadNetworkComboBox() {
         networkComboBox.setItems(FXCollections.observableArrayList(getNetworkNames()));
         if (networkComboBox.getItems().size() != 0) {
             networkComboBox.setValue(networkComboBox.getItems().get(0));
@@ -171,5 +242,15 @@ public class NeuralNetworkControlWindow extends Stage {
         } else {
             testButton.setDisable(true);
         }
+    }
+
+    private void loadNetworkInfoData() {
+        List<NetworkInfo> networkInfoList = networkInfoService.getNetworkInfoList(null, null);
+        List<NetworkInfoProperty> networkInfoPropertyList = new ArrayList<>();
+        for (NetworkInfo networkInfo : networkInfoList) {
+            networkInfoPropertyList.add(new NetworkInfoProperty(networkInfo));
+        }
+        final ObservableList<NetworkInfoProperty> data = FXCollections.observableArrayList(networkInfoPropertyList);
+        table.setItems(data);
     }
 }

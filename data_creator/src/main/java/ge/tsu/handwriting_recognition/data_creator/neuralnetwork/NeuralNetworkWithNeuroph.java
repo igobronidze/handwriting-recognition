@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Deprecated
 public class NeuralNetworkWithNeuroph implements INeuralNetwork {
 
     private SystemParameterService systemParameterService = new SystemParameterServiceImpl();
@@ -62,7 +63,7 @@ public class NeuralNetworkWithNeuroph implements INeuralNetwork {
     }
 
     @Override
-    public Character guessCharacter(NormalizedData normalizedData) {
+    public Character guessCharacter(NormalizedData normalizedData, String networkPath) {
         NeuralNetwork neuralNetwork = NeuralNetwork.createFromFile(neuralNetworkPath);
         DataSetRow dataSetRow = normalizedDataService.getDataSetRow(normalizedData);
         neuralNetwork.setInput(dataSetRow.getInput());

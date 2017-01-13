@@ -6,7 +6,7 @@ public interface INeuralNetwork {
 
     void trainNeural(int width, int height, String generation);
 
-    Character guessCharacter(NormalizedData normalizedData);
+    Character guessCharacter(NormalizedData normalizedData, String networkPath);
 
     float test(int width, int height, String generation, String path, int networkId);
 }
