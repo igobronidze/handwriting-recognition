@@ -33,7 +33,7 @@ public class TestingInfoDAOImpl implements TestingInfoDAO {
     public List<TestingInfo> getTestingInfoListByNetworkId(int networkId) {
         List<TestingInfo> testingInfoList = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM testing_info WHERE network_id = ?";
+            String sql = "SELECT * FROM testing_info WHERE network_id = ? ORDER BY id DESC;";
             pstmt = DatabaseUtil.getConnection().prepareStatement(sql);
             pstmt.setInt(1, networkId);
             ResultSet rs = pstmt.executeQuery();

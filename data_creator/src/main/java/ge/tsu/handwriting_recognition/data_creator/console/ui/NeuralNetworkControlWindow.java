@@ -5,12 +5,15 @@ import ge.tsu.handwriting_recognition.data_creator.console.ui.propeties.NetworkI
 import ge.tsu.handwriting_recognition.data_creator.console.utils.ShowAlert;
 import ge.tsu.handwriting_recognition.data_creator.console.utils.StageUtils;
 import ge.tsu.handwriting_recognition.data_creator.model.NetworkInfo;
+import ge.tsu.handwriting_recognition.data_creator.model.TestingInfo;
 import ge.tsu.handwriting_recognition.data_creator.neuralnetwork.INeuralNetwork;
 import ge.tsu.handwriting_recognition.data_creator.neuralnetwork.MyNeuralNetwork;
 import ge.tsu.handwriting_recognition.data_creator.service.NetworkInfoService;
 import ge.tsu.handwriting_recognition.data_creator.service.NetworkInfoServiceImpl;
 import ge.tsu.handwriting_recognition.data_creator.service.SystemParameterService;
 import ge.tsu.handwriting_recognition.data_creator.service.SystemParameterServiceImpl;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,8 +28,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class NeuralNetworkControlWindow extends Stage {
 
@@ -50,12 +55,19 @@ public class NeuralNetworkControlWindow extends Stage {
 
     private TableView<NetworkInfoProperty> table;
 
+    private Integer selectedNetworkId;
+
+    private String selectedNetworkName;
+
+    private List<TestingInfo> testingInfoList;
+
     public NeuralNetworkControlWindow() {
         this.setTitle(Messages.get("neuralNetworkControl"));
         root = new VBox();
         initTrainPane();
         initTestPane();
         initMainPane();
+        initButtomPane();
         this.setScene(new Scene(root));
         StageUtils.setMaxSize(this);
     }
@@ -102,6 +114,7 @@ public class NeuralNetworkControlWindow extends Stage {
                 int id = Integer.parseInt(networkName.split("_")[0]);
                 float error = neuralNetwork.test(width, height, generationTextField.getText(), neuralNetworkDirectory + "\\" + networkName, id);
                 ShowAlert.showSimpleAlert("" + error);
+                loadNetworkInfoData();
             }
         });
         HBox hBox = new HBox(10);
@@ -146,6 +159,7 @@ public class NeuralNetworkControlWindow extends Stage {
                 }
                 neuralNetwork.trainNeural(width, height, generationTextField.getText());
                 NeuralNetworkControlWindow.this.reloadNetworkComboBox();
+                loadNetworkInfoData();
             }
         });
         HBox hBox = new HBox(10);
@@ -206,9 +220,9 @@ public class NeuralNetworkControlWindow extends Stage {
         TableColumn numberOfTrainingDataInOneIterationColumn = new TableColumn(Messages.get("numberOfTrainingDataInOneIteration"));
         numberOfTrainingDataInOneIterationColumn.setPrefWidth(77);
         numberOfTrainingDataInOneIterationColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("numberOfTrainingDataInOneIteration"));
-        TableColumn bestErrorColumn = new TableColumn(Messages.get("bestError"));
-        bestErrorColumn.setPrefWidth(75);
-        bestErrorColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("bestError"));
+        TableColumn bestAverageErrorColumn = new TableColumn(Messages.get("bestAverageError"));
+        bestAverageErrorColumn.setPrefWidth(95);
+        bestAverageErrorColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("bestAverageError"));
         TableColumn charSequenceColumn = new TableColumn(Messages.get("charSequence"));
         charSequenceColumn.setPrefWidth(60);
         charSequenceColumn.setCellValueFactory(new PropertyValueFactory<NetworkInfoProperty, String>("charSequence"));
@@ -218,11 +232,82 @@ public class NeuralNetworkControlWindow extends Stage {
 
         table.getColumns().addAll(idColumn, widthColumn, heightColumn, generationColumn, numberOfDataColumn, trainingDurationColumn, weightMinValueColumn,
                 weightMaxValueColumn, biasMinValueColumn, biasMaxValueColumn, transferFunctionTypeColumn, learningRateColumn, minErrorColumn,
-                trainingMaxIterationColumn, numberOfTrainingDataInOneIterationColumn, bestErrorColumn, charSequenceColumn, hiddenLayerColumn);
+                trainingMaxIterationColumn, numberOfTrainingDataInOneIterationColumn, bestAverageErrorColumn, charSequenceColumn, hiddenLayerColumn);
         loadNetworkInfoData();
+
+        table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<NetworkInfoProperty>(){
+            @Override
+            public void changed(ObservableValue<? extends NetworkInfoProperty> observable, NetworkInfoProperty oldValue, NetworkInfoProperty newValue) {
+                if (newValue != null) {
+                    selectedNetworkId = newValue.getId();
+                    selectedNetworkName =  newValue.getId() + "_" + newValue.getGeneration() + "_" + newValue.getWidth() + "_" + newValue.getHeight() + ".nnet";
+                    testingInfoList = newValue.getTestingInfoList();
+                } else {
+                    selectedNetworkId = null;
+                    selectedNetworkName = null;
+                    testingInfoList = null;
+                }
+            }
+        });
 
         vBox.getChildren().add(table);
         root.getChildren().add(vBox);
+    }
+
+    private void initButtomPane() {
+        CheckBox fileCheckBox = new CheckBox(Messages.get("deleteFromFile"));
+        fileCheckBox.setStyle("-fx-font-family: sylfaen");
+        fileCheckBox.setSelected(true);
+        CheckBox databaseCheckBox = new CheckBox(Messages.get("deleteFromDatabase"));
+        databaseCheckBox.setStyle("-fx-font-family: sylfaen");
+        databaseCheckBox.setSelected(true);
+        Button deleteButton = new Button(Messages.get("delete"));
+        deleteButton.setStyle("-fx-font-family: sylfaen");
+        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (fileCheckBox.isSelected() || databaseCheckBox.isSelected()) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setContentText(Messages.get("confirmDeleteOperation"));
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.get() == ButtonType.OK) {
+                        if (selectedNetworkId != null) {
+                            if (fileCheckBox.isSelected() && selectedNetworkName != null) {
+                                File file = new File(neuralNetworkDirectory + "\\" + selectedNetworkName);
+                                file.delete();
+                            }
+                            if (databaseCheckBox.isSelected()) {
+                                networkInfoService.deleteNetworkInfo(selectedNetworkId);
+                                loadNetworkInfoData();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        Button testInfoButton = new Button(Messages.get("testInfo"));
+        testInfoButton.setStyle("-fx-font-family: sylfaen");
+        testInfoButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (testingInfoList != null) {
+                    String text = "";
+                    for (int i = 0; i < testingInfoList.size(); i++) {
+                        TestingInfo testingInfo = testingInfoList.get(i);
+                        text += (i + 1) + ". " + Messages.get("generation") + " - " + testingInfo.getGeneration();
+                        text += "    " + Messages.get("numberOfData") + " - " + testingInfo.getNumberOfTest();
+                        text += "    " + Messages.get("averageError") + " - " + (testingInfo.getError() / testingInfo.getNumberOfTest()) + System.lineSeparator();
+                    }
+                    ShowAlert.showSimpleAlert(text);
+                }
+            }
+        });
+        HBox hBox = new HBox(10);
+        hBox.setPadding(new Insets(15, 15, 15, 15));
+        hBox.setAlignment(Pos.CENTER_LEFT);
+        hBox.getChildren().addAll(fileCheckBox, databaseCheckBox, deleteButton, testInfoButton);
+        root.getChildren().add(hBox);
     }
 
     private List<String> getNetworkNames() {

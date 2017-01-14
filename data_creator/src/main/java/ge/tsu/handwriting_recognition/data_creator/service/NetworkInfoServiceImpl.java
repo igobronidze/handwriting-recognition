@@ -27,4 +27,9 @@ public class NetworkInfoServiceImpl implements NetworkInfoService {
         }
         return networkInfoList;
     }
+
+    @Override
+    public void deleteNetworkInfo(int id) {
+        networkInfoDAO.deleteNetworkInfo(id);
+    }
 }

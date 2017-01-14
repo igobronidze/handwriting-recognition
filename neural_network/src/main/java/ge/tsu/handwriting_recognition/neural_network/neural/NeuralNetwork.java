@@ -119,11 +119,14 @@ public class NeuralNetwork implements Serializable {
         return new Date().getTime() - startTime;
     }
 
-    public float test(List<TrainingData> trainingDataList) {
-        float error = 0.0f;
+    public TestResult test(List<TrainingData> trainingDataList) {
+        float squaredError = 0.0f;
+        int numberOfCorrects = 0;
         for (TrainingData trainingData : trainingDataList) {
-            Activation.activate(this, trainingData);
-            error += Activation.squaredError(this, trainingData);
+//            Activation.activate(this, trainingData);
+            squaredError += Activation.squaredError(this, trainingData);
+            List<Float> outputActivation = getOutputActivation(trainingData);
+            for (Neuron neuron : )
         }
         return error;
     }
@@ -153,5 +156,25 @@ public class NeuralNetwork implements Serializable {
         } catch (IOException | ClassNotFoundException ex) {
             throw new NeuralNetworkException(ex.getMessage());
         }
+    }
+
+    public static float squaredError(NeuralNetwork neuralNetwork, TrainingData trainingData) {
+        List<Neuron> outputNeurons = neuralNetwork.getOutputNeurons();
+        List<Float> output = trainingData.getOutput();
+        float error = 0.0f;
+        for (int i = 0; i < output.size(); i++) {
+            error += Math.pow(output.get(i) - outputNeurons.get(i).getActivationValue(), 2) / 2.0;
+        }
+        return error;
+    }
+
+    private int getBestIndex(List<Float> list) {
+        int index = 0;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) > list.get(index)) {
+                index = i;
+            }
+        }
+        return index;
     }
 }

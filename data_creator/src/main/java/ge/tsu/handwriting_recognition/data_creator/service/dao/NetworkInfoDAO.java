@@ -9,4 +9,6 @@ public interface NetworkInfoDAO {
     int addNetworkInfo(NetworkInfo networkInfo);
 
     List<NetworkInfo> getNetworkInfoList(Integer id, String generation);
+
+    void deleteNetworkInfo(int id);
 }

@@ -25,14 +25,4 @@ public class Activation {
             neuron.setActivationValue(neuralNetwork.getNeuralNetworkParameter().getTransferFunction().transfer(sum));
         }
     }
-
-    public static float squaredError(NeuralNetwork neuralNetwork, TrainingData trainingData) {
-        List<Neuron> outputNeurons = neuralNetwork.getOutputNeurons();
-        List<Float> output = trainingData.getOutput();
-        float error = 0.0f;
-        for (int i = 0; i < output.size(); i++) {
-            error += Math.pow(output.get(i) - outputNeurons.get(i).getActivationValue(), 2) / 2.0;
-        }
-        return error;
-    }
 }
