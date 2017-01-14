@@ -91,7 +91,7 @@ public class MyNeuralNetwork implements INeuralNetwork {
             testingInfo.setNetworkId(networkId);
             testingInfo.setGeneration(generation);
             testingInfoService.addTestingInfo(testingInfo);
-            return error;
+            return (error / normalizedDataList.size());
         } catch (Exception ex) {
             System.out.println("Neural network don's exist");
         }

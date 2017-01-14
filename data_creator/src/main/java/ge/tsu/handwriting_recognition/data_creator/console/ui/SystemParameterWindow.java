@@ -8,7 +8,6 @@ import ge.tsu.handwriting_recognition.data_creator.model.SystemParameter;
 import ge.tsu.handwriting_recognition.data_creator.service.SystemParameterService;
 import ge.tsu.handwriting_recognition.data_creator.service.SystemParameterServiceImpl;
 import ge.tsu.handwriting_recognition.data_creator.service.exception.HandwritingRecognitionException;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;

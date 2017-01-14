@@ -61,6 +61,7 @@ public class NetworkInfoDAOImpl implements NetworkInfoDAO {
             if (generation != null) {
                 sql += "AND generation = '" + generation + "' ";
             }
+            sql += " ORDER BY id DESC;";
             pstmt = DatabaseUtil.getConnection().prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -90,5 +91,23 @@ public class NetworkInfoDAOImpl implements NetworkInfoDAO {
             DatabaseUtil.closeConnection();
         }
         return networkInfoList;
+    }
+
+    @Override
+    public void deleteNetworkInfo(int id) {
+        try {
+            String sql = "DELETE fROM testing_info WHERE network_id = ?";
+            pstmt = DatabaseUtil.getConnection().prepareStatement(sql);
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+            sql = "DELETE FROM network_info WHERE id = ?";
+            pstmt = DatabaseUtil.getConnection().prepareStatement(sql);
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            DatabaseUtil.closeConnection();
+        }
     }
 }

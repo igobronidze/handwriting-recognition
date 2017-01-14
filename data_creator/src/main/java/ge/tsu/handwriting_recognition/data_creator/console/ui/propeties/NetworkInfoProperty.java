@@ -42,11 +42,13 @@ public class NetworkInfoProperty {
 
     private SimpleLongProperty numberOfTrainingDataInOneIteration;
 
-    private SimpleFloatProperty bestError;
-
     private SimpleStringProperty charSequence;
 
     private SimpleStringProperty hiddenLayer;
+
+    private List<TestingInfo> testingInfoList;
+
+    private SimpleFloatProperty bestAverageError;
 
     public NetworkInfoProperty(NetworkInfo networkInfo) {
         this.id = new SimpleIntegerProperty(networkInfo.getId());
@@ -66,18 +68,19 @@ public class NetworkInfoProperty {
         this.numberOfTrainingDataInOneIteration = new SimpleLongProperty(networkInfo.getNumberOfTrainingDataInOneIteration());
         List<TestingInfo> testingInfoList = networkInfo.getTestingInfoList();
         if (testingInfoList == null || testingInfoList.isEmpty()) {
-            bestError = new SimpleFloatProperty(-1f);
+            bestAverageError = new SimpleFloatProperty(-1f);
         } else {
-            float min = testingInfoList.get(0).getError();
+            float min = testingInfoList.get(0).getError() / testingInfoList.get(0).getNumberOfTest();
             for (TestingInfo testingInfo : testingInfoList) {
-                if (testingInfo.getError() < min) {
-                    min = testingInfo.getError();
+                if (testingInfo.getError() / testingInfo.getNumberOfTest() < min) {
+                    min = testingInfo.getError() / testingInfo.getNumberOfTest();
                 }
             }
-            bestError = new SimpleFloatProperty(min);
+            bestAverageError = new SimpleFloatProperty(min);
         }
         this.charSequence = new SimpleStringProperty(networkInfo.getCharSequence());
         this.hiddenLayer = new SimpleStringProperty(networkInfo.getHiddenLayer());
+        this.testingInfoList = networkInfo.getTestingInfoList();
     }
 
     public int getId() {
@@ -260,16 +263,16 @@ public class NetworkInfoProperty {
         this.numberOfTrainingDataInOneIteration.set(numberOfTrainingDataInOneIteration);
     }
 
-    public float getBestError() {
-        return bestError.get();
+    public float getBestAverageError() {
+        return bestAverageError.get();
     }
 
-    public SimpleFloatProperty bestErrorProperty() {
-        return bestError;
+    public SimpleFloatProperty bestAverageErrorProperty() {
+        return bestAverageError;
     }
 
-    public void setBestError(float bestError) {
-        this.bestError.set(bestError);
+    public void setBestAverageError(float bestAverageError) {
+        this.bestAverageError.set(bestAverageError);
     }
 
     public String getCharSequence() {
@@ -294,5 +297,13 @@ public class NetworkInfoProperty {
 
     public void setHiddenLayer(String hiddenLayer) {
         this.hiddenLayer.set(hiddenLayer);
+    }
+
+    public List<TestingInfo> getTestingInfoList() {
+        return testingInfoList;
+    }
+
+    public void setTestingInfoList(List<TestingInfo> testingInfoList) {
+        this.testingInfoList = testingInfoList;
     }
 }
