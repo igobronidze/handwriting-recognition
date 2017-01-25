@@ -7,7 +7,15 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>neural_network</artifactId>
-    <name>Neural network</name>
+    <artifactId>control_panel</artifactId>
+    <name>Control panel</name>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>console</module>
+        <module>server</module>
+        <module>model</module>
+        <module>service</module>
+    </modules>
 
 </project>

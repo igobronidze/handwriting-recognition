@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>handwriting_recognition</artifactId>
-    <groupId>ge.tsu.handwriting_recognition</groupId>
+    <groupId>ge.edu.tsu.handwriting_recognition</groupId>
     <version>1.0.1</version>
     <packaging>pom</packaging>
 
@@ -11,7 +11,7 @@
 
     <contributors>
         <contributor>
-            <name>Iosebi</name>
+            <name>Iosebi Gobronidze</name>
             <email>ioseb.gobronidze@azry.com</email>
             <roles>
                 <role>developer</role>
@@ -30,7 +30,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>data_creator</module>
+                <module>control_panel</module>
                 <module>neural_network</module>
                 <module>image_processing</module>
             </modules>
@@ -43,11 +43,6 @@
             <artifactId>junit</artifactId>
             <version>4.8.2</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>9.4.1209.jre7</version>
         </dependency>
     </dependencies>
 
