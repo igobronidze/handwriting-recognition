@@ -8,7 +8,7 @@ data
 data/*
 target
 target/*
-network
-network/*
+test_network
+test_network/*
 images
 images/*

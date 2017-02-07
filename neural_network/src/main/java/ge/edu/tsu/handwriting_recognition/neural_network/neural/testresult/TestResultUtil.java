@@ -16,8 +16,8 @@ public class TestResultUtil {
         return getIndexOfMax(outputList) == getIndexOfMax(activatedList);
     }
 
-    public static float getDiffBetweenAnsAndBest(List<Float> outputList, List<Float> activatedList) {
-        return outputList.get(getIndexOfMax(activatedList)) - outputList.get(getIndexOfMax(activatedList));
+    public static float   getDiffBetweenAnsAndBest(List<Float> outputList, List<Float> activatedList) {
+        return outputList.get(getIndexOfMax(outputList)) - outputList.get(getIndexOfMax(activatedList));
     }
 
     // TODO[sg] დასამუშავებელია ფორმულა, რომელიც დათვლის საერთო შეცდომას

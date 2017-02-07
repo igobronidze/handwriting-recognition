@@ -62,7 +62,7 @@ public class NetworkInfoProperty {
         this.height = new SimpleIntegerProperty(networkInfo.getHeight());
         this.generation = new SimpleStringProperty(networkInfo.getGeneration());
         this.numberOfData = new SimpleIntegerProperty(networkInfo.getNumberOfData());
-        this.trainingDuration = new SimpleStringProperty(DateUtils.getFullDateFromSecond(networkInfo.getTrainingDuration() / 100));
+        this.trainingDuration = new SimpleStringProperty(DateUtils.getFullDateFromSecond(networkInfo.getTrainingDuration() / 1000));
         this.weightMinValue = new SimpleFloatProperty(networkInfo.getWeightMinValue());
         this.weightMaxValue = new SimpleFloatProperty(networkInfo.getWeightMaxValue());
         this.biasMinValue = new SimpleFloatProperty(networkInfo.getBiasMinValue());

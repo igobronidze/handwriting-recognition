@@ -23,7 +23,7 @@ public class SystemParameterManager {
     }
 
     public Long getLongParameterValue(Parameter parameter) {
-        return Long.getLong(getParameterValue(parameter));
+        return Long.parseLong(getParameterValue(parameter));
     }
 
     public List<Integer> getIntegerListParameterValue(Parameter parameter) {
