@@ -2,13 +2,7 @@
 .idea/*
 *.iml
 */*.iml
-out
-out/*
-data
-data/*
 target
 target/*
-test_network
 test_network/*
-images
 images/*
