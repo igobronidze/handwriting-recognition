@@ -10,6 +10,8 @@ public class SystemParameter implements Serializable {
 
     private String value;
 
+    private SysParamType type;
+
     public SystemParameter() {
     }
 
@@ -22,6 +24,13 @@ public class SystemParameter implements Serializable {
         this.id = id;
         this.key = key;
         this.value = value;
+    }
+
+    public SystemParameter(int id, String key, String value, SysParamType type) {
+        this.id = id;
+        this.key = key;
+        this.value = value;
+        this.type = type;
     }
 
     public int getId() {
@@ -46,5 +55,13 @@ public class SystemParameter implements Serializable {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public SysParamType getType() {
+        return type;
+    }
+
+    public void setType(SysParamType type) {
+        this.type = type;
     }
 }

@@ -2,6 +2,7 @@ package ge.edu.tsu.handwriting_recognition.control_panel.server.dao;
 
 
 import ge.edu.tsu.handwriting_recognition.control_panel.model.exception.ControlPanelException;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.sysparam.SysParamType;
 import ge.edu.tsu.handwriting_recognition.control_panel.model.sysparam.SystemParameter;
 import ge.edu.tsu.handwriting_recognition.control_panel.server.caching.CachedSystemParameter;
 
@@ -26,10 +27,11 @@ public class SystemParameterDAOImpl implements SystemParameterDAO {
             if (rs.getInt(1) > 0) {
                 throw new ControlPanelException("keyMustBeUnique");
             }
-            String sql = "INSERT INTO system_parameter (key, value) VALUES (?,?);";
+            String sql = "INSERT INTO system_parameter (key, value, type) VALUES (?,?,?);";
             pstmt = DatabaseUtil.getConnection().prepareStatement(sql);
             pstmt.setString(1, systemParameter.getKey());
             pstmt.setString(2, systemParameter.getValue());
+            pstmt.setString(3, systemParameter.getType().name());
             pstmt.executeUpdate();
             CachedSystemParameter.editOrAddParameter(systemParameter);
         } catch (SQLException ex) {
@@ -90,7 +92,8 @@ public class SystemParameterDAOImpl implements SystemParameterDAO {
                 int id = rs.getInt("id");
                 String k = rs.getString("key");
                 String value = rs.getString("value");
-                SystemParameter systemParameter = new SystemParameter(id, k, value);
+                String type = rs.getString("type");
+                SystemParameter systemParameter = new SystemParameter(id, k, value, SysParamType.valueOf(type));
                 systemParameterList.add(systemParameter);
             }
         } catch (SQLException ex) {
