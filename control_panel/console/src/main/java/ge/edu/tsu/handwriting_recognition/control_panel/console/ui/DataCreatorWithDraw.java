@@ -2,8 +2,8 @@ package ge.edu.tsu.handwriting_recognition.control_panel.console.ui;
 
 import ge.edu.tsu.handwriting_recognition.control_panel.console.resources.Messages;
 import ge.edu.tsu.handwriting_recognition.control_panel.console.utils.ShowAlert;
-import ge.edu.tsu.handwriting_recognition.control_panel.model.data.NormalizedData;
-import ge.edu.tsu.handwriting_recognition.control_panel.model.info.CharSequence;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.NormalizedData;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.CharSequence;
 import ge.edu.tsu.handwriting_recognition.control_panel.model.sysparam.Parameter;
 import ge.edu.tsu.handwriting_recognition.control_panel.service.imageprocessing.ImageProcessingService;
 import ge.edu.tsu.handwriting_recognition.control_panel.service.imageprocessing.ImageProcessingServiceImpl;
@@ -256,7 +256,7 @@ public class DataCreatorWithDraw extends Stage {
             @Override
             public void handle(ActionEvent event) {
                 NeuralNetworkService neuralNetworkService = new NeuralNetworkServiceImpl(NeuralNetworkManagerType.MY_NEURAL_NETWORK);
-                char ans = neuralNetworkService.guessCharacter(getNormalizedDataFromBoard(), systemParameterService.getParameterValue(neuralNetworkDirectoryParameter) + "\\" + networkComboBox.getValue());
+                char ans = neuralNetworkService.getNetworkResult(getNormalizedDataFromBoard(), systemParameterService.getParameterValue(neuralNetworkDirectoryParameter) + "\\" + networkComboBox.getValue()).getAnswer();
                 ShowAlert.showSimpleAlert("" + ans);
             }
         });

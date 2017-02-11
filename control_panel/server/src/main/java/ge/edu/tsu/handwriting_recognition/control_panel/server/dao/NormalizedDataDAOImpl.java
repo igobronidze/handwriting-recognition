@@ -1,8 +1,8 @@
 package ge.edu.tsu.handwriting_recognition.control_panel.server.dao;
 
 
-import ge.edu.tsu.handwriting_recognition.control_panel.model.data.NormalizedData;
-import ge.edu.tsu.handwriting_recognition.control_panel.model.info.CharSequence;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.NormalizedData;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.CharSequence;
 
 import java.sql.Array;
 import java.sql.PreparedStatement;

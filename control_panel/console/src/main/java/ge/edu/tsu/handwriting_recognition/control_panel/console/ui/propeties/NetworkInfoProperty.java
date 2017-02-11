@@ -1,8 +1,8 @@
 package ge.edu.tsu.handwriting_recognition.control_panel.console.ui.propeties;
 
 import ge.edu.tsu.handwriting_recognition.control_panel.console.utils.DateUtils;
-import ge.edu.tsu.handwriting_recognition.control_panel.model.info.NetworkInfo;
-import ge.edu.tsu.handwriting_recognition.control_panel.model.info.TestingInfo;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.NetworkInfo;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.TestingInfo;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;

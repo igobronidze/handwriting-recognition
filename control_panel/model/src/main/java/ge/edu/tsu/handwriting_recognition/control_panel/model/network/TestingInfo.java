@@ -1,4 +1,4 @@
-package ge.edu.tsu.handwriting_recognition.control_panel.model.info;
+package ge.edu.tsu.handwriting_recognition.control_panel.model.network;
 
 import java.io.Serializable;
 

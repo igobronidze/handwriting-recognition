@@ -1,10 +1,7 @@
 package ge.edu.tsu.handwriting_recognition.control_panel.server.manager.neuralnetwork;
 
-import ge.edu.tsu.handwriting_recognition.control_panel.model.data.NormalizedData;
-import ge.edu.tsu.handwriting_recognition.control_panel.model.info.CharSequence;
-import ge.edu.tsu.handwriting_recognition.control_panel.model.info.NetworkInfo;
-import ge.edu.tsu.handwriting_recognition.control_panel.model.info.TestingInfo;
-import ge.edu.tsu.handwriting_recognition.control_panel.model.info.TransferFunction;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.*;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.CharSequence;
 import ge.edu.tsu.handwriting_recognition.control_panel.model.sysparam.Parameter;
 import ge.edu.tsu.handwriting_recognition.control_panel.server.dao.*;
 import ge.edu.tsu.handwriting_recognition.control_panel.server.manager.NormalizedDataManager;
@@ -89,7 +86,7 @@ public class MyNeuralNetworkManager implements NeuralNetworkManager {
     }
 
     @Override
-    public Character guessCharacter(NormalizedData normalizedData, String networkPath) {
+    public NetworkResult getNetworkResult(NormalizedData normalizedData, String networkPath) {
         try {
             NeuralNetwork neuralNetwork = NeuralNetwork.load(networkPath);
             TrainingData trainingData = normalizedDataManager.getTrainingData(normalizedData, charSequence);
@@ -100,7 +97,9 @@ public class MyNeuralNetworkManager implements NeuralNetworkManager {
                     ans = i;
                 }
             }
-            return (char) (ans + charSequence.getFirstCharASCI());
+            char c = (char) (ans + charSequence.getFirstCharASCI());
+            NetworkResult networkResult = new NetworkResult(output, c);
+            return networkResult;
         } catch (NNException ex) {
             System.out.println(ex.getMessage());
         }

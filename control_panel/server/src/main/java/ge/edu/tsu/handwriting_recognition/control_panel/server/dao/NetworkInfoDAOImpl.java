@@ -1,7 +1,7 @@
 package ge.edu.tsu.handwriting_recognition.control_panel.server.dao;
 
-import ge.edu.tsu.handwriting_recognition.control_panel.model.info.NetworkInfo;
-import ge.edu.tsu.handwriting_recognition.control_panel.model.info.TransferFunction;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.NetworkInfo;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.TransferFunction;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
