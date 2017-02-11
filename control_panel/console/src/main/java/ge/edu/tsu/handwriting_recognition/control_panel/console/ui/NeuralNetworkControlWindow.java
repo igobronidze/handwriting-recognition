@@ -4,8 +4,8 @@ import ge.edu.tsu.handwriting_recognition.control_panel.console.resources.Messag
 import ge.edu.tsu.handwriting_recognition.control_panel.console.ui.propeties.NetworkInfoProperty;
 import ge.edu.tsu.handwriting_recognition.control_panel.console.utils.ShowAlert;
 import ge.edu.tsu.handwriting_recognition.control_panel.console.utils.StageUtils;
-import ge.edu.tsu.handwriting_recognition.control_panel.model.info.NetworkInfo;
-import ge.edu.tsu.handwriting_recognition.control_panel.model.info.TestingInfo;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.NetworkInfo;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.TestingInfo;
 import ge.edu.tsu.handwriting_recognition.control_panel.model.sysparam.Parameter;
 import ge.edu.tsu.handwriting_recognition.control_panel.service.networkinfo.NetworkInfoService;
 import ge.edu.tsu.handwriting_recognition.control_panel.service.networkinfo.NetworkInfoServiceImpl;

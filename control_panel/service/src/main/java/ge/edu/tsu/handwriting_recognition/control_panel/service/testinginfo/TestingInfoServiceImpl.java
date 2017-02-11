@@ -1,6 +1,6 @@
 package ge.edu.tsu.handwriting_recognition.control_panel.service.testinginfo;
 
-import ge.edu.tsu.handwriting_recognition.control_panel.model.info.TestingInfo;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.TestingInfo;
 import ge.edu.tsu.handwriting_recognition.control_panel.server.dao.TestingInfoDAO;
 import ge.edu.tsu.handwriting_recognition.control_panel.server.dao.TestingInfoDAOImpl;
 

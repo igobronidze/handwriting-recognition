@@ -1,6 +1,7 @@
 package ge.edu.tsu.handwriting_recognition.control_panel.service.neuralnetwork;
 
-import ge.edu.tsu.handwriting_recognition.control_panel.model.data.NormalizedData;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.NetworkResult;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.NormalizedData;
 import ge.edu.tsu.handwriting_recognition.control_panel.server.manager.neuralnetwork.MyNeuralNetworkManager;
 import ge.edu.tsu.handwriting_recognition.control_panel.server.manager.neuralnetwork.NeuralNetworkManager;
 import ge.edu.tsu.handwriting_recognition.control_panel.server.manager.neuralnetwork.NeurophNeuralNetworkManager;
@@ -26,8 +27,8 @@ public class NeuralNetworkServiceImpl implements NeuralNetworkService {
     }
 
     @Override
-    public Character guessCharacter(NormalizedData normalizedData, String networkPath) {
-        return neuralNetworkManager.guessCharacter(normalizedData, networkPath);
+    public NetworkResult getNetworkResult(NormalizedData normalizedData, String networkPath) {
+        return neuralNetworkManager.getNetworkResult(normalizedData, networkPath);
     }
 
     @Override

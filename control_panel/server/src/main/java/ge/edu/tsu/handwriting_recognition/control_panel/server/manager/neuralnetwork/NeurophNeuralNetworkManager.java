@@ -1,7 +1,8 @@
 package ge.edu.tsu.handwriting_recognition.control_panel.server.manager.neuralnetwork;
 
-import ge.edu.tsu.handwriting_recognition.control_panel.model.data.NormalizedData;
-import ge.edu.tsu.handwriting_recognition.control_panel.model.info.CharSequence;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.NetworkResult;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.NormalizedData;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.CharSequence;
 import ge.edu.tsu.handwriting_recognition.control_panel.model.sysparam.Parameter;
 import ge.edu.tsu.handwriting_recognition.control_panel.server.dao.NormalizedDataDAO;
 import ge.edu.tsu.handwriting_recognition.control_panel.server.dao.NormalizedDataDAOImpl;
@@ -15,6 +16,7 @@ import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.util.TransferFunctionType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -75,19 +77,22 @@ public class NeurophNeuralNetworkManager implements NeuralNetworkManager {
     }
 
     @Override
-    public Character guessCharacter(NormalizedData normalizedData, String networkPath) {
+    public NetworkResult getNetworkResult(NormalizedData normalizedData, String networkPath) {
         NeuralNetwork neuralNetwork = NeuralNetwork.createFromFile(systemParameterManager.getParameterValue(neuralNetworkPathParameter));
         DataSetRow dataSetRow = normalizedDataManager.getDataSetRow(normalizedData, charSequence);
         neuralNetwork.setInput(dataSetRow.getInput());
         neuralNetwork.calculate();
         double[] networkOutput = neuralNetwork.getOutput();
         int ans = 0;
+        List<Float> output = new ArrayList<>();
         for (int i = 1; i < charSequence.getNumberOfChars(); i++) {
+            output.add((float)networkOutput[i]);
             if (networkOutput[i] > networkOutput[ans]) {
                 ans = i;
             }
         }
-        return (char)(ans + charSequence.getFirstCharASCI());
+        char c = (char)(ans + charSequence.getFirstCharASCI());
+        return new NetworkResult(output, c);
     }
 
     @Override

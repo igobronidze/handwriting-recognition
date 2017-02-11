@@ -1,8 +1,7 @@
-package ge.edu.tsu.handwriting_recognition.control_panel.model.data;
-
-import ge.edu.tsu.handwriting_recognition.control_panel.model.info.CharSequence;
+package ge.edu.tsu.handwriting_recognition.control_panel.model.network;
 
 import java.io.Serializable;
+import java.lang.*;
 import java.util.Arrays;
 
 public class NormalizedData implements Serializable {

@@ -1,7 +1,7 @@
 package ge.edu.tsu.handwriting_recognition.control_panel.service.normalizeddata;
 
-import ge.edu.tsu.handwriting_recognition.control_panel.model.data.NormalizedData;
-import ge.edu.tsu.handwriting_recognition.control_panel.model.info.CharSequence;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.NormalizedData;
+import ge.edu.tsu.handwriting_recognition.control_panel.model.network.CharSequence;
 import ge.edu.tsu.handwriting_recognition.control_panel.server.dao.NormalizedDataDAO;
 import ge.edu.tsu.handwriting_recognition.control_panel.server.dao.NormalizedDataDAOImpl;
 
